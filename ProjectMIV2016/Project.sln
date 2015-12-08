@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibSimu", "msvs\LibSimu.vcxproj", "{FEBF908E-0A30-4F1B-B413-66F6D5C20983}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProjectMIV", "msvs\ProjectMIV.vcxproj", "{BC537C23-799C-45C0-8F4C-4DC0A6B8E8A4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FEBF908E-0A30-4F1B-B413-66F6D5C20983} = {FEBF908E-0A30-4F1B-B413-66F6D5C20983}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FEBF908E-0A30-4F1B-B413-66F6D5C20983}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FEBF908E-0A30-4F1B-B413-66F6D5C20983}.Debug|Win32.Build.0 = Debug|Win32
+		{FEBF908E-0A30-4F1B-B413-66F6D5C20983}.Release|Win32.ActiveCfg = Release|Win32
+		{FEBF908E-0A30-4F1B-B413-66F6D5C20983}.Release|Win32.Build.0 = Release|Win32
+		{BC537C23-799C-45C0-8F4C-4DC0A6B8E8A4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BC537C23-799C-45C0-8F4C-4DC0A6B8E8A4}.Debug|Win32.Build.0 = Debug|Win32
+		{BC537C23-799C-45C0-8F4C-4DC0A6B8E8A4}.Release|Win32.ActiveCfg = Release|Win32
+		{BC537C23-799C-45C0-8F4C-4DC0A6B8E8A4}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

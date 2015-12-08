@@ -1,0 +1,28 @@
+﻿La génération a démarré 08/12/2015 14:57:52.
+     1>Projet "H:\5INFO\MIV\Projet\ProjectMIV2016\msvs\ProjectMIV.vcxproj" sur le nœud 2 (Build cible(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IH:\5INFO\MIV\Projet\ProjectMIV2016\lib\LeapSDK\include /IH:\5INFO\MIV\Projet\ProjectMIV2016\src\lib_simu\maths /IH:\5INFO\MIV\Projet\ProjectMIV2016\src\lib_simu\internals /IH:\5INFO\MIV\Projet\ProjectMIV2016\src\lib_simu\includes /IH:\5INFO\MIV\Projet\ProjectMIV2016\src\lib_simu\display /IH:\5INFO\MIV\Projet\ProjectMIV2016\src\leap /IH:\5INFO\MIV\Projet\ProjectMIV2016\src\physics /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"ProjectMIV\Debug\\" /Fd"ProjectMIV\Debug\vc120.pdb" /Gd /TP /wd4244 /wd4996 /wd4305 /analyze- /errorReport:prompt ..\src\main.cpp ..\src\physics\GUI.cpp ..\src\physics\Mesh.cpp ..\src\physics\RigidSphere.cpp ..\src\Simulator.cpp
+         Simulator.cpp
+         RigidSphere.cpp
+         Note: including lib: glut32.lib
+         
+         Mesh.cpp
+         GUI.cpp
+         Note: including lib: glut32.lib
+         
+         main.cpp
+         Note: including lib: glut32.lib
+         
+         Génération de code en cours...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"H:\5INFO\MIV\Projet\ProjectMIV2016\bin\Debug\ProjectMIV.exe" /INCREMENTAL /NOLOGO H:\5INFO\MIV\Projet\ProjectMIV2016\bin\Debug\LibSimu.lib Ws2_32.lib H:\5INFO\MIV\Projet\ProjectMIV2016\lib\glut32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"H:\5INFO\MIV\Projet\ProjectMIV2016\bin\Debug\ProjectMIV.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"H:\5INFO\MIV\Projet\ProjectMIV2016\bin\Debug\ProjectMIV.lib" /MACHINE:X86 ProjectMIV\Debug\main.obj
+         ProjectMIV\Debug\GUI.obj
+         ProjectMIV\Debug\Mesh.obj
+         ProjectMIV\Debug\RigidSphere.obj
+         ProjectMIV\Debug\Simulator.obj
+         ProjectMIV.vcxproj -> H:\5INFO\MIV\Projet\ProjectMIV2016\bin\Debug\ProjectMIV.exe
+     1>Génération du projet "H:\5INFO\MIV\Projet\ProjectMIV2016\msvs\ProjectMIV.vcxproj" terminée (Build cible(s)).
+
+La génération a réussi.
+
+Temps écoulé 00:00:05.49
