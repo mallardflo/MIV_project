@@ -39,7 +39,7 @@ void Display() {
 	GUI::end3DScene();
 }
 
-//main loop of the application (automatically called by the GUI class) coompsed of 2 parts : move the world, and display the world
+//main loop of the application (automatically called by the GUI class) composed of 2 parts : move the world, and display the world
 void app_loop() 
 {	
 	simulator.Update();

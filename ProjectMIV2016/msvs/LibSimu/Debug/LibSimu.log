@@ -1,7 +1,7 @@
-﻿La génération a démarré 08/12/2015 14:57:38.
-     1>Projet "H:\5INFO\MIV\Projet\ProjectMIV2016\msvs\LibSimu.vcxproj" sur le nœud 2 (Build cible(s)).
+﻿La génération a démarré 08/12/2015 15:02:45.
+     1>Projet "C:\Users\fmallard.EDUC\Desktop\ProjectMIV2016\msvs\LibSimu.vcxproj" sur le nœud 2 (Build cible(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IH:\5INFO\MIV\Projet\ProjectMIV2016\src\lib_simu\maths /IH:\5INFO\MIV\Projet\ProjectMIV2016\src\lib_simu\internals /IH:\5INFO\MIV\Projet\ProjectMIV2016\src\lib_simu\includes /IH:\5INFO\MIV\Projet\ProjectMIV2016\src\lib_simu\display /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D LIBSIMU_EXPORTS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"LibSimu\Debug\\" /Fd"LibSimu\Debug\vc120.pdb" /Gd /TP /wd4244 /wd4996 /wd4305 /analyze- /errorReport:prompt ..\src\lib_simu\display\Display.cpp ..\src\lib_simu\display\glExtents.cpp ..\src\lib_simu\internals\haptic_client.cpp ..\src\lib_simu\internals\MeshContainer.cpp ..\src\lib_simu\internals\Message.cpp ..\src\lib_simu\internals\StringExtension.cpp ..\src\lib_simu\internals\UniformGrid.cpp ..\src\lib_simu\maths\AxisAlignedBox.cpp ..\src\lib_simu\maths\Matrix.cpp ..\src\lib_simu\maths\Matrix3.cpp ..\src\lib_simu\maths\Matrix4.cpp ..\src\lib_simu\maths\MyMath.cpp ..\src\lib_simu\maths\OMath.cpp ..\src\lib_simu\maths\Plane.cpp ..\src\lib_simu\maths\Quaternion.cpp ..\src\lib_simu\maths\Vector2.cpp ..\src\lib_simu\maths\Vector3.cpp ..\src\lib_simu\maths\Vector4.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\Users\fmallard.EDUC\Desktop\ProjectMIV2016\src\lib_simu\maths /IC:\Users\fmallard.EDUC\Desktop\ProjectMIV2016\src\lib_simu\internals /IC:\Users\fmallard.EDUC\Desktop\ProjectMIV2016\src\lib_simu\includes /IC:\Users\fmallard.EDUC\Desktop\ProjectMIV2016\src\lib_simu\display /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D LIBSIMU_EXPORTS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"LibSimu\Debug\\" /Fd"LibSimu\Debug\vc120.pdb" /Gd /TP /wd4244 /wd4996 /wd4305 /analyze- /errorReport:prompt ..\src\lib_simu\display\Display.cpp ..\src\lib_simu\display\glExtents.cpp ..\src\lib_simu\internals\haptic_client.cpp ..\src\lib_simu\internals\MeshContainer.cpp ..\src\lib_simu\internals\Message.cpp ..\src\lib_simu\internals\StringExtension.cpp ..\src\lib_simu\internals\UniformGrid.cpp ..\src\lib_simu\maths\AxisAlignedBox.cpp ..\src\lib_simu\maths\Matrix.cpp ..\src\lib_simu\maths\Matrix3.cpp ..\src\lib_simu\maths\Matrix4.cpp ..\src\lib_simu\maths\MyMath.cpp ..\src\lib_simu\maths\OMath.cpp ..\src\lib_simu\maths\Plane.cpp ..\src\lib_simu\maths\Quaternion.cpp ..\src\lib_simu\maths\Vector2.cpp ..\src\lib_simu\maths\Vector3.cpp ..\src\lib_simu\maths\Vector4.cpp
          Vector4.cpp
          Vector3.cpp
          Vector2.cpp
@@ -26,7 +26,7 @@
          
          Génération de code en cours...
        Lib:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"H:\5INFO\MIV\Projet\ProjectMIV2016\bin\Debug\LibSimu.lib" /NOLOGO LibSimu\Debug\Display.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"C:\Users\fmallard.EDUC\Desktop\ProjectMIV2016\bin\Debug\LibSimu.lib" /NOLOGO LibSimu\Debug\Display.obj
          LibSimu\Debug\glExtents.obj
          LibSimu\Debug\haptic_client.obj
          LibSimu\Debug\MeshContainer.obj
@@ -44,9 +44,9 @@
          LibSimu\Debug\Vector2.obj
          LibSimu\Debug\Vector3.obj
          LibSimu\Debug\Vector4.obj
-         LibSimu.vcxproj -> H:\5INFO\MIV\Projet\ProjectMIV2016\bin\Debug\LibSimu.lib
-     1>Génération du projet "H:\5INFO\MIV\Projet\ProjectMIV2016\msvs\LibSimu.vcxproj" terminée (Build cible(s)).
+         LibSimu.vcxproj -> C:\Users\fmallard.EDUC\Desktop\ProjectMIV2016\bin\Debug\LibSimu.lib
+     1>Génération du projet "C:\Users\fmallard.EDUC\Desktop\ProjectMIV2016\msvs\LibSimu.vcxproj" terminée (Build cible(s)).
 
 La génération a réussi.
 
-Temps écoulé 00:00:14.38
+Temps écoulé 00:00:09.02
