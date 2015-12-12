@@ -2,12 +2,12 @@
 #include "Particle.h"
 
 const float Simulator::GRAVITY_CONSTANT = 9.81f;
-const float Simulator::K = 500;
+const float Simulator::K = 3000;
 const float Simulator::D = 5;
-const float Simulator::dt = 1.0f/100.0f;
+const float Simulator::dt = 1.0f/2000.0f;
 const float Simulator::nb_iterations = 1;
 
-void Simulator::Update()
+void Simulator::Update(int n)
 {
 	// Define the simulation loop (the methods are not in order)
 	//ApplyVelocityDamping( ... )
@@ -20,7 +20,7 @@ void Simulator::Update()
 
 	Integrate();
 	//UpdateManipulator ( ... )
-}
+} 
 
 void Simulator::ComputeForces()
 {

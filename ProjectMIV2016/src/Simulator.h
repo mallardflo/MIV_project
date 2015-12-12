@@ -38,7 +38,7 @@ public:
 	inline void setManipulator(RigidSphere* m) {m_Manipulator = m;}
 
 	//Simulation step
-	void Update();
+	void Update(int n);
 
 private:
 

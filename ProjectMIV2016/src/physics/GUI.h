@@ -15,7 +15,7 @@
 struct Mesh;
 class UniformGrid;
 
-//main class
+//main class	
 class GUI {
 
 private:
