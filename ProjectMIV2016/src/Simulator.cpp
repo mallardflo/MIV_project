@@ -2,24 +2,26 @@
 #include "Particle.h"
 
 const float Simulator::GRAVITY_CONSTANT = 9.81f;
-const float Simulator::K = 3000;
+const float Simulator::K = 5000;
 const float Simulator::D = 5;
-const float Simulator::dt = 1.0f/2000.0f;
+const float Simulator::dt = 1.0f/800.0f;
 const float Simulator::nb_iterations = 1;
 
 void Simulator::Update(int n)
 {
 	// Define the simulation loop (the methods are not in order)
 	//ApplyVelocityDamping( ... )
-	ComputeForces();
+	for (int j = 0; j < n;j++) {
+		ComputeForces();
 
-	for (int i = 0; i < 10; i++)
-	{
-		m_Mesh->particles[i].force_accumulator = Maths::Vector3(0, 0, 0);
+		for (int i = 0; i < 10; i++)
+		{
+			m_Mesh->particles[i].force_accumulator = Maths::Vector3(0, 0, 0);
+		}
+
+		Integrate(n);
+		//UpdateManipulator ( ... )
 	}
-
-	Integrate();
-	//UpdateManipulator ( ... )
 } 
 
 void Simulator::ComputeForces()
@@ -48,12 +50,12 @@ void Simulator::ComputeForces()
 	}
 }
 
-void Simulator::Integrate() 
+void Simulator::Integrate(int div_n) 
 {
 	for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
 	{
-		Maths::Vector3 new_pos = m_Mesh->particles[p].pos + (m_Mesh->particles[p].vel * dt);
-		Maths::Vector3 new_vel = m_Mesh->particles[p].vel + (m_Mesh->particles[p].force_accumulator * (dt / m_Mesh->particles[p].mass));
+		Maths::Vector3 new_pos = m_Mesh->particles[p].pos + (m_Mesh->particles[p].vel * (dt/div_n));
+		Maths::Vector3 new_vel = m_Mesh->particles[p].vel + (m_Mesh->particles[p].force_accumulator * ((dt/div_n) / m_Mesh->particles[p].mass));
 		
 		// update particle with new values
 		m_Mesh->particles[p].pos = new_pos;

@@ -42,7 +42,7 @@ void Display() {
 //main loop of the application (automatically called by the GUI class) composed of 2 parts : move the world, and display the world
 void app_loop() 
 {	
-	simulator.Update();
+	simulator.Update(10);
 	Display();
 }
 

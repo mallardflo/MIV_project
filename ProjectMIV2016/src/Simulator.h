@@ -46,7 +46,7 @@ private:
 	void ComputeForces();
 
 	//Integrates the state of each particle of the mesh by computing new velocities and position at time t + dt
-	void Integrate();
+	void Integrate(int div_n);
 	
 	void ApplyVelocityDamping();
 	
