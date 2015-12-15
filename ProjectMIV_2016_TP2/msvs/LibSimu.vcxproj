@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\lib_simu\display\Display.cpp" />
+    <ClCompile Include="..\src\lib_simu\display\glExtents.cpp" />
+    <ClCompile Include="..\src\lib_simu\internals\MeshContainer.cpp" />
+    <ClCompile Include="..\src\lib_simu\internals\Message.cpp" />
+    <ClCompile Include="..\src\lib_simu\internals\StringExtension.cpp" />
+    <ClCompile Include="..\src\lib_simu\internals\UniformGrid.cpp" />
+    <ClCompile Include="..\src\lib_simu\maths\AxisAlignedBox.cpp" />
+    <ClCompile Include="..\src\lib_simu\maths\Matrix.cpp" />
+    <ClCompile Include="..\src\lib_simu\maths\Matrix3.cpp" />
+    <ClCompile Include="..\src\lib_simu\maths\Matrix4.cpp" />
+    <ClCompile Include="..\src\lib_simu\maths\MyMath.cpp" />
+    <ClCompile Include="..\src\lib_simu\maths\OMath.cpp" />
+    <ClCompile Include="..\src\lib_simu\maths\Plane.cpp" />
+    <ClCompile Include="..\src\lib_simu\maths\Quaternion.cpp" />
+    <ClCompile Include="..\src\lib_simu\maths\Vector2.cpp" />
+    <ClCompile Include="..\src\lib_simu\maths\Vector3.cpp" />
+    <ClCompile Include="..\src\lib_simu\maths\Vector4.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\lib_simu\display\Display.h" />
+    <ClInclude Include="..\src\lib_simu\display\DisplayOpenGL.h" />
+    <ClInclude Include="..\src\lib_simu\display\glExtents.h" />
+    <ClInclude Include="..\src\lib_simu\includes\glut.h" />
+    <ClInclude Include="..\src\lib_simu\includes\pthread.h" />
+    <ClInclude Include="..\src\lib_simu\includes\sched.h" />
+    <ClInclude Include="..\src\lib_simu\includes\semaphore.h" />
+    <ClInclude Include="..\src\lib_simu\includes\stdint.h" />
+    <ClInclude Include="..\src\lib_simu\internals\MeshContainer.h" />
+    <ClInclude Include="..\src\lib_simu\internals\Message.h" />
+    <ClInclude Include="..\src\lib_simu\internals\StringExtension.h" />
+    <ClInclude Include="..\src\lib_simu\internals\Timer.h" />
+    <ClInclude Include="..\src\lib_simu\internals\TimerApple.h" />
+    <ClInclude Include="..\src\lib_simu\internals\TimerLinux.h" />
+    <ClInclude Include="..\src\lib_simu\internals\TimerWindows.h" />
+    <ClInclude Include="..\src\lib_simu\internals\UniformGrid.h" />
+    <ClInclude Include="..\src\lib_simu\internals\Utils.h" />
+    <ClInclude Include="..\src\lib_simu\maths\AllMath.h" />
+    <ClInclude Include="..\src\lib_simu\maths\asm_math.h" />
+    <ClInclude Include="..\src\lib_simu\maths\AxisAlignedBox.h" />
+    <ClInclude Include="..\src\lib_simu\maths\Matrix.h" />
+    <ClInclude Include="..\src\lib_simu\maths\Matrix3.h" />
+    <ClInclude Include="..\src\lib_simu\maths\Matrix4.h" />
+    <ClInclude Include="..\src\lib_simu\maths\MyMath.h" />
+    <ClInclude Include="..\src\lib_simu\maths\OMath.h" />
+    <ClInclude Include="..\src\lib_simu\maths\Plane.h" />
+    <ClInclude Include="..\src\lib_simu\maths\PlaneBoundedVolume.h" />
+    <ClInclude Include="..\src\lib_simu\maths\Platform.h" />
+    <ClInclude Include="..\src\lib_simu\maths\Prerequisites.h" />
+    <ClInclude Include="..\src\lib_simu\maths\Quaternion.h" />
+    <ClInclude Include="..\src\lib_simu\maths\Ray.h" />
+    <ClInclude Include="..\src\lib_simu\maths\Sphere.h" />
+    <ClInclude Include="..\src\lib_simu\maths\Vector2.h" />
+    <ClInclude Include="..\src\lib_simu\maths\Vector3.h" />
+    <ClInclude Include="..\src\lib_simu\maths\Vector4.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{FEBF908E-0A30-4F1B-B413-66F6D5C20983}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>LibSimu</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;LIBSIMU_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\lib_simu\maths;$(SolutionDir)src\lib_simu\internals;$(SolutionDir)src\lib_simu\includes;$(SolutionDir)src\lib_simu\display</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4244;4996;4305</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Ws2_32.lib;$(SolutionDir)lib\glut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;LIBSIMU_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\lib_simu\maths;$(SolutionDir)src\lib_simu\internals;$(SolutionDir)src\lib_simu\includes;$(SolutionDir)src\lib_simu\display</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4244;4996;4305</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>Ws2_32.lib;$(SolutionDir)lib\glut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

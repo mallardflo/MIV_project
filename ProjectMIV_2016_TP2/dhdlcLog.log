@@ -1,0 +1,3 @@
+[dhdlcImp::dhdlcImp():17.26.42.0002] - Constructor called
+[dhdlcImp::init():17.26.42.0003] - init(Default Falcon,(null))
+[dhdlcImp::init():17.26.42.0007] - dhdOpen() returned -23
