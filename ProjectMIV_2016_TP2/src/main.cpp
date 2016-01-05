@@ -12,8 +12,11 @@ int last_mouse_y;
 
 HapticClient haptic_client;
 RigidSphere manipulator;
+RigidSphere sphere1;
+RigidSphere sphere2;
 Simulator simulator;
 Mesh mesh;
+bool paused = false;
 
 //Forward Declarations
 void hapticButtonClicked();
@@ -43,14 +46,27 @@ int main(int argc, char **argv) {
 	manipulator.setRadius(1.0f);
 	manipulator.setPosition(Maths::Vector3(0,-0.25,0));
 
+	//Define sizes and positions of the fixing spheres
+	/*sphere1.setPosition(Maths::Vector3(-0.5,3.5,0));
+	sphere2.setPosition(Maths::Vector3(3,4.2,0));
+	sphere1.setRadius(0.5);
+	sphere2.setRadius(1);*/
+
 	//Creates and initalizes the simulator which will update the mesh
 	simulator.setMesh(&mesh);
 	simulator.setManipulator(&manipulator);
+
+	//Fix particles inside of the spheres
+	//simulator.fixParticlesinSphere(&sphere1);
+	//simulator.fixParticlesinSphere(&sphere2);
+
+	//Creates and initalizes the simulator which will update the mesh
 
 	std::cout << "Initializing Haptic Device.... " << std::flush;
 
 	//Haptic
 	haptic_client.init();
+	
 
 	//Start the application loop. This function returns when the main window is closed
 	GUI::startApp(app_loop, mouseButtonClicked, mouseDragged, keyPressed);
@@ -66,10 +82,11 @@ int main(int argc, char **argv) {
 //main loop of the application (automatically called by the GUI class) coompsed of 2 parts : move the world, and display the world
 void app_loop() 
 {	
-	//Update the simulation
-	simulator.Update();
-	//manipulator.setPosition(haptic_client.getPosition());
-
+	if (!paused){
+		//Update the simulation
+		simulator.Update();
+		//manipulator.setPosition(haptic_client.getPosition());
+	}
 	Maths::Vector3 retour = Maths::Vector3::ZERO;
 	//Update haptic simulation here!!
 	for (unsigned int p = 0; p < mesh.particles.size(); p++)
@@ -80,10 +97,8 @@ void app_loop()
 		}
 	}
 
-	
 	retour = -retour;
 	haptic_client.setForce(retour);
-
 
 	//Check the button status of the haptic device
 	hapticButtonClicked();
@@ -167,5 +182,16 @@ void mouseDragged(int x, int y)
 void keyPressed(unsigned char key) {
 
 	std::cout << "key pressed: " << key << std::endl;
+	
+	if (key == 'p'){
+		paused = !paused;
+	}
+	if (key == 'f'){
+		simulator.fixParticles();
+	}
+	if (key == 's'){
+		simulator.saveFixedParticles();
+	}
+	
 }
 

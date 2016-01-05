@@ -122,7 +122,14 @@ void GUI::drawMesh(Mesh& mesh, bool wire_frame) {
 		
 		//draw points
 		for (unsigned int v = 0 ; v < mesh.particles.size() ; v++) {
-			Display::drawPoint(mesh.particles[v].pos);
+			if (mesh.particles[v].fixed){
+				Display::setDrawColor(0,0,204);
+				Display::drawPoint(mesh.particles[v].pos);
+			}
+			else{
+				Display::setDrawColor(210.0f / 255.0f, 0, 0);
+				Display::drawPoint(mesh.particles[v].pos);
+			}
 		}
 
 		//neighbors

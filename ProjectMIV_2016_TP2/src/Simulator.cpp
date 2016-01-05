@@ -1,10 +1,13 @@
 #include "Simulator.h"
 #include "Particle.h"
+#include <iostream>
+#include <string>
+#include <fstream>
 
 const float Simulator::GRAVITY_CONSTANT = 9.81f;
-const float Simulator::K = 5000;
-const float Simulator::D = 1;
-const float Simulator::dt = 1.0f/200.0f;
+const float Simulator::K = 1000;
+const float Simulator::D = 40;
+const float Simulator::dt = 1.0f/50.0f;
 const float Simulator::nb_iterations = 20;
 
 void Simulator::Update()
@@ -16,6 +19,7 @@ void Simulator::Update()
 		ComputeForces();
 
 		ApplyVelocityDamping();
+
 		/*
 		//fix first row of particules to simulate hanging
 		for (int i = 0; i < 30; i++)
@@ -34,6 +38,7 @@ void Simulator::Update()
 		}
 		*/
 
+		//remove all forces and velocity to particles tagged as fixed
 		for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
 		{
 			if (m_Mesh->particles[p].fixed)
@@ -53,11 +58,12 @@ void Simulator::ComputeForces()
 {
 	for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
 	{
+		Particle *particle = &(m_Mesh->particles[p]);
+
 		// gravity
-		m_Mesh->particles[p].force_accumulator = Maths::Vector3(0, -GRAVITY_CONSTANT, 0);
+		particle->force_accumulator = Maths::Vector3(0, -GRAVITY_CONSTANT, 0);
 		
 		// neighbors forces
-		Particle *particle = &(m_Mesh->particles[p]);
 		for (unsigned int n = 0; n < particle->neighbors.size(); n++)
 		{
 			Particle *neighbor = particle->neighbors[n];
@@ -77,12 +83,15 @@ void Simulator::Integrate()
 {
 	for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
 	{
-		Maths::Vector3 new_pos = m_Mesh->particles[p].pos + (m_Mesh->particles[p].vel * (dt/nb_iterations));
-		Maths::Vector3 new_vel = m_Mesh->particles[p].vel + (m_Mesh->particles[p].force_accumulator * ((dt/nb_iterations) / m_Mesh->particles[p].mass));
-		
-		// update particle with new values
-		m_Mesh->particles[p].pos = new_pos;
-		m_Mesh->particles[p].vel = new_vel;
+		if (!m_Mesh->particles[p].fixed)
+		{
+			Maths::Vector3 new_pos = m_Mesh->particles[p].pos + (m_Mesh->particles[p].vel * (dt / nb_iterations));
+			Maths::Vector3 new_vel = m_Mesh->particles[p].vel + (m_Mesh->particles[p].force_accumulator * ((dt / nb_iterations) / m_Mesh->particles[p].mass));
+
+			// update particle with new values
+			m_Mesh->particles[p].pos = new_pos;
+			m_Mesh->particles[p].vel = new_vel;
+		}
 	}
 }
 
@@ -90,20 +99,22 @@ void Simulator::ApplyVelocityDamping()
 {
 	for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
 	{
-		m_Mesh->particles[p].force_accumulator += -D * m_Mesh->particles[p].vel;
-
 		Particle *particle = &(m_Mesh->particles[p]);
+
 		for (unsigned int n = 0; n < particle->neighbors.size(); n++)
 		{
 			Particle *neighbor = particle->neighbors[n];
 
-			Maths::Vector3 vrel = particle->vel - neighbor->vel;
+			Maths::Vector3 vrel = neighbor->vel - particle->vel;
 
 			Maths::Vector3 diff_pos = particle->pos - neighbor->pos;
-			//diff_pos.normalise();
+			diff_pos.normalise();
 
-			particle->force_accumulator += diff_pos * vrel * D;
+			particle->force_accumulator += diff_pos * (diff_pos.dotProduct(vrel) * D);
 		}
+
+		//add some friction
+		particle->force_accumulator += -D * particle->vel;
 	}
 }
 
@@ -118,21 +129,33 @@ void Simulator::UpdateManipulator()
 		{
 			//repulsion of the sphere
 			Maths::Vector3 m_force = Maths::Vector3(0.0f, 0.0f, 0.0f);
-			
 
 			if (m_Mesh->particles[p].pos.distance(manipulator_pos) < manipulator_radius) 
 			{
-
-				m_Mesh->particles[p].fixed = true;
-				/*
+				//m_Mesh->particles[p].fixed = true;
+				
 				m_force = m_Mesh->particles[p].pos - manipulator_pos;
 				m_force.normalise();	
 				m_Mesh->particles[p].pos = manipulator_pos + m_force * manipulator_radius;		
 
 				//impose velocity ZERO perpendicular to the sphere surface
 				m_Mesh->particles[p].vel -= m_force*m_Mesh->particles[p].vel.dotProduct(m_force);
-				*/
+
 			}
+		}
+	}
+}
+
+void Simulator::fixParticlesinSphere(RigidSphere* sphere)
+{
+	Maths::Vector3 sphere_pos = sphere->getPosition();
+	Maths::Real sphere_radius = sphere->getRadius();
+
+	for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
+	{
+		if (m_Mesh->particles[p].pos.distance(sphere_pos) < sphere_radius)
+		{
+			m_Mesh->particles[p].fixed = true;
 		}
 	}
 }
@@ -140,4 +163,25 @@ void Simulator::UpdateManipulator()
 void Simulator::CutLinks() 
 {
 	
+}
+
+void Simulator::fixParticles(){
+	if (m_Manipulator)
+	{
+		Maths::Vector3 manipulator_pos = m_Manipulator->getPosition();
+		Maths::Real manipulator_radius = m_Manipulator->getRadius();
+
+		for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
+		{
+			
+			if (m_Mesh->particles[p].pos.distance(manipulator_pos) < manipulator_radius)
+			{
+				m_Mesh->particles[p].fixed = true;
+			}
+		}
+	}
+}
+
+void saveFixedParticles(){
+
 }

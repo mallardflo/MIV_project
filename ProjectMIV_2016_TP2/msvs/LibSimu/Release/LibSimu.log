@@ -1,49 +1,9 @@
-﻿La génération a démarré 15/12/2015 16:13:16.
-     1>Projet "C:\Users\qaugrain\Desktop\MIV\MIV_project\ProjectMIV_2016_TP2\msvs\LibSimu.vcxproj" sur le nœud 2 (Build cible(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\Users\qaugrain\Desktop\MIV\MIV_project\ProjectMIV_2016_TP2\src\lib_simu\maths /IC:\Users\qaugrain\Desktop\MIV\MIV_project\ProjectMIV_2016_TP2\src\lib_simu\internals /IC:\Users\qaugrain\Desktop\MIV\MIV_project\ProjectMIV_2016_TP2\src\lib_simu\includes /IC:\Users\qaugrain\Desktop\MIV\MIV_project\ProjectMIV_2016_TP2\src\lib_simu\display /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D LIBSIMU_EXPORTS /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"LibSimu\Release\\" /Fd"LibSimu\Release\vc120.pdb" /Gd /TP /wd4244 /wd4996 /wd4305 /analyze- /errorReport:prompt ..\src\lib_simu\display\Display.cpp ..\src\lib_simu\display\glExtents.cpp ..\src\lib_simu\internals\MeshContainer.cpp ..\src\lib_simu\internals\Message.cpp ..\src\lib_simu\internals\StringExtension.cpp ..\src\lib_simu\internals\UniformGrid.cpp ..\src\lib_simu\maths\AxisAlignedBox.cpp ..\src\lib_simu\maths\Matrix.cpp ..\src\lib_simu\maths\Matrix3.cpp ..\src\lib_simu\maths\Matrix4.cpp ..\src\lib_simu\maths\MyMath.cpp ..\src\lib_simu\maths\OMath.cpp ..\src\lib_simu\maths\Plane.cpp ..\src\lib_simu\maths\Quaternion.cpp ..\src\lib_simu\maths\Vector2.cpp ..\src\lib_simu\maths\Vector3.cpp ..\src\lib_simu\maths\Vector4.cpp
-         Display.cpp
-         Note: including lib: glut32.lib
-         
-         glExtents.cpp
-         Note: including lib: glut32.lib
-         
-         MeshContainer.cpp
-         Message.cpp
-         StringExtension.cpp
-         UniformGrid.cpp
-         AxisAlignedBox.cpp
-         Matrix.cpp
-         Matrix3.cpp
-         Matrix4.cpp
-         MyMath.cpp
-         OMath.cpp
-         Plane.cpp
-         Quaternion.cpp
-         Vector2.cpp
-         Vector3.cpp
-         Vector4.cpp
-       Lib:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"C:\Users\qaugrain\Desktop\MIV\MIV_project\ProjectMIV_2016_TP2\bin\Release\LibSimu.lib" /NOLOGO /LTCG LibSimu\Release\Display.obj
-         LibSimu\Release\glExtents.obj
-         LibSimu\Release\MeshContainer.obj
-         LibSimu\Release\Message.obj
-         LibSimu\Release\StringExtension.obj
-         LibSimu\Release\UniformGrid.obj
-         LibSimu\Release\AxisAlignedBox.obj
-         LibSimu\Release\Matrix.obj
-         LibSimu\Release\Matrix3.obj
-         LibSimu\Release\Matrix4.obj
-         LibSimu\Release\MyMath.obj
-         LibSimu\Release\OMath.obj
-         LibSimu\Release\Plane.obj
-         LibSimu\Release\Quaternion.obj
-         LibSimu\Release\Vector2.obj
-         LibSimu\Release\Vector3.obj
-         LibSimu\Release\Vector4.obj
-         LibSimu.vcxproj -> C:\Users\qaugrain\Desktop\MIV\MIV_project\ProjectMIV_2016_TP2\bin\Release\LibSimu.lib
-     1>Génération du projet "C:\Users\qaugrain\Desktop\MIV\MIV_project\ProjectMIV_2016_TP2\msvs\LibSimu.vcxproj" terminée (Build cible(s)).
+﻿La génération a démarré 05/01/2016 13:48:50.
+     1>Projet "C:\Users\fmallard\Desktop\Projet\ProjectMIV_2016_TP2\msvs\LibSimu.vcxproj" sur le nœud 2 (Build cible(s)).
+     1>Lib:
+         LibSimu.vcxproj -> C:\Users\fmallard\Desktop\Projet\ProjectMIV_2016_TP2\bin\Release\LibSimu.lib
+     1>Génération du projet "C:\Users\fmallard\Desktop\Projet\ProjectMIV_2016_TP2\msvs\LibSimu.vcxproj" terminée (Build cible(s)).
 
 La génération a réussi.
 
-Temps écoulé 00:00:07.46
+Temps écoulé 00:00:00.84

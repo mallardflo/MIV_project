@@ -42,6 +42,11 @@ public:
 
 	Maths::Vector3 getForce() {return Maths::Vector3(1.5,1.5,1.5);}
 
+	void fixParticlesinSphere(RigidSphere* s);
+
+	void fixParticles();
+
+	void saveFixedParticles();
 private:
 
 	//Updates the state of the mesh before display
