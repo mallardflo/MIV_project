@@ -1,9 +1,21 @@
+<<<<<<< HEAD
 ﻿La génération a démarré 05/01/2016 13:48:50.
      1>Projet "C:\Users\fmallard\Desktop\Projet\ProjectMIV_2016_TP2\msvs\LibSimu.vcxproj" sur le nœud 2 (Build cible(s)).
      1>Lib:
          LibSimu.vcxproj -> C:\Users\fmallard\Desktop\Projet\ProjectMIV_2016_TP2\bin\Release\LibSimu.lib
      1>Génération du projet "C:\Users\fmallard\Desktop\Projet\ProjectMIV_2016_TP2\msvs\LibSimu.vcxproj" terminée (Build cible(s)).
+=======
+﻿Build started 20/12/2015 19:18:28.
+     1>Project "E:\Documents\INSA\MIV\Projet\MIV_project\ProjectMIV_2016_TP2\msvs\LibSimu.vcxproj" on node 2 (Build target(s)).
+     1>Lib:
+         LibSimu.vcxproj -> E:\Documents\INSA\MIV\Projet\MIV_project\ProjectMIV_2016_TP2\bin\Release\LibSimu.lib
+     1>Done Building Project "E:\Documents\INSA\MIV\Projet\MIV_project\ProjectMIV_2016_TP2\msvs\LibSimu.vcxproj" (Build target(s)).
+>>>>>>> 3f55f54a0b65fdf66158d432dd9c11d493d0a399
 
-La génération a réussi.
+Build succeeded.
 
+<<<<<<< HEAD
 Temps écoulé 00:00:00.84
+=======
+Time Elapsed 00:00:00.10
+>>>>>>> 3f55f54a0b65fdf66158d432dd9c11d493d0a399
