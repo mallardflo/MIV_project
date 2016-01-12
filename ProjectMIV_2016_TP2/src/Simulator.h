@@ -47,6 +47,14 @@ public:
 	void fixParticles();
 
 	void saveFixedParticles();
+
+	void restoreFixedParticles();
+
+	void dropMesh(float offset);
+
+	void translateMesh(Maths::Vector3 t);
+
+	void rotateMesh();
 private:
 
 	//Updates the state of the mesh before display

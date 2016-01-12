@@ -1,9 +1,8 @@
-<<<<<<< HEAD
-﻿La génération a démarré 05/01/2016 17:23:12.
+﻿La génération a démarré 12/01/2016 17:44:06.
      1>Projet "C:\Users\fmallard\Desktop\Projet\ProjectMIV_2016_TP2\msvs\ProjectMIV.vcxproj" sur le nœud 2 (Build cible(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\Novint\HDAL_SDK_2.1.3\include" /IC:\Users\fmallard\Desktop\Projet\ProjectMIV_2016_TP2\src\leap /IC:\Users\fmallard\Desktop\Projet\ProjectMIV_2016_TP2\lib\LeapSDK\include /IC:\Users\fmallard\Desktop\Projet\ProjectMIV_2016_TP2\src\lib_simu\maths /IC:\Users\fmallard\Desktop\Projet\ProjectMIV_2016_TP2\src\lib_simu\internals /IC:\Users\fmallard\Desktop\Projet\ProjectMIV_2016_TP2\src\lib_simu\includes /IC:\Users\fmallard\Desktop\Projet\ProjectMIV_2016_TP2\src\lib_simu\display /IC:\Users\fmallard\Desktop\Projet\ProjectMIV_2016_TP2\src\physics /I"C:\Program Files (x86)\LeapSDK\include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"ProjectMIV\Release\\" /Fd"ProjectMIV\Release\vc120.pdb" /Gd /TP /wd4244 /wd4996 /wd4305 /analyze- /errorReport:prompt ..\src\physics\GUI.cpp
-         GUI.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\Novint\HDAL_SDK_2.1.3\include" /IC:\Users\fmallard\Desktop\Projet\ProjectMIV_2016_TP2\src\leap /IC:\Users\fmallard\Desktop\Projet\ProjectMIV_2016_TP2\lib\LeapSDK\include /IC:\Users\fmallard\Desktop\Projet\ProjectMIV_2016_TP2\src\lib_simu\maths /IC:\Users\fmallard\Desktop\Projet\ProjectMIV_2016_TP2\src\lib_simu\internals /IC:\Users\fmallard\Desktop\Projet\ProjectMIV_2016_TP2\src\lib_simu\includes /IC:\Users\fmallard\Desktop\Projet\ProjectMIV_2016_TP2\src\lib_simu\display /IC:\Users\fmallard\Desktop\Projet\ProjectMIV_2016_TP2\src\physics /I"C:\Program Files (x86)\LeapSDK\include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"ProjectMIV\Release\\" /Fd"ProjectMIV\Release\vc120.pdb" /Gd /TP /wd4244 /wd4996 /wd4305 /analyze- /errorReport:prompt ..\src\main.cpp
+         main.cpp
          Note: including lib: glut32.lib
          
        Link:
@@ -21,24 +20,7 @@
          Fin de la génération du code
          ProjectMIV.vcxproj -> C:\Users\fmallard\Desktop\Projet\ProjectMIV_2016_TP2\bin\Release\ProjectMIV.exe
      1>Génération du projet "C:\Users\fmallard\Desktop\Projet\ProjectMIV_2016_TP2\msvs\ProjectMIV.vcxproj" terminée (Build cible(s)).
-=======
-﻿Build started 20/12/2015 19:18:29.
-     1>Project "E:\Documents\INSA\MIV\Projet\MIV_project\ProjectMIV_2016_TP2\msvs\ProjectMIV.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\Novint\HDAL_SDK_2.1.3\include" /IE:\Documents\INSA\MIV\Projet\MIV_project\ProjectMIV_2016_TP2\src\leap /IE:\Documents\INSA\MIV\Projet\MIV_project\ProjectMIV_2016_TP2\lib\LeapSDK\include /IE:\Documents\INSA\MIV\Projet\MIV_project\ProjectMIV_2016_TP2\src\lib_simu\maths /IE:\Documents\INSA\MIV\Projet\MIV_project\ProjectMIV_2016_TP2\src\lib_simu\internals /IE:\Documents\INSA\MIV\Projet\MIV_project\ProjectMIV_2016_TP2\src\lib_simu\includes /IE:\Documents\INSA\MIV\Projet\MIV_project\ProjectMIV_2016_TP2\src\lib_simu\display /IE:\Documents\INSA\MIV\Projet\MIV_project\ProjectMIV_2016_TP2\src\physics /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"ProjectMIV\Release\\" /Fd"ProjectMIV\Release\vc120.pdb" /Gd /TP /wd4244 /wd4996 /wd4305 /analyze- /errorReport:prompt ..\src\main.cpp ..\src\physics\HapticClient.cpp
-         main.cpp
-         Note: including lib: glut32.lib
-         
-     1>E:\Documents\INSA\MIV\Projet\MIV_project\ProjectMIV_2016_TP2\src\physics\HapticClient.h(9): fatal error C1083: Cannot open include file: 'hdl/hdl.h': No such file or directory
-         HapticClient.cpp
-     1>e:\documents\insa\miv\projet\miv_project\projectmiv_2016_tp2\src\physics\HapticClient.h(9): fatal error C1083: Cannot open include file: 'hdl/hdl.h': No such file or directory
-     1>Done Building Project "E:\Documents\INSA\MIV\Projet\MIV_project\ProjectMIV_2016_TP2\msvs\ProjectMIV.vcxproj" (Build target(s)) -- FAILED.
->>>>>>> 3f55f54a0b65fdf66158d432dd9c11d493d0a399
 
-Build FAILED.
+La génération a réussi.
 
-<<<<<<< HEAD
-Temps écoulé 00:00:02.40
-=======
-Time Elapsed 00:00:00.93
->>>>>>> 3f55f54a0b65fdf66158d432dd9c11d493d0a399
+Temps écoulé 00:00:04.02

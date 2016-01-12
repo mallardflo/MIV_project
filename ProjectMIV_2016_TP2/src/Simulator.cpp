@@ -7,8 +7,8 @@
 const float Simulator::GRAVITY_CONSTANT = 9.81f;
 const float Simulator::K = 1000;
 const float Simulator::D = 40;
-const float Simulator::dt = 1.0f/50.0f;
-const float Simulator::nb_iterations = 20;
+const float Simulator::dt = 1.0f/100.0f;
+const float Simulator::nb_iterations = 25;
 
 void Simulator::Update()
 {
@@ -130,7 +130,7 @@ void Simulator::UpdateManipulator()
 			//repulsion of the sphere
 			Maths::Vector3 m_force = Maths::Vector3(0.0f, 0.0f, 0.0f);
 
-			if (m_Mesh->particles[p].pos.distance(manipulator_pos) < manipulator_radius) 
+			if (m_Mesh->particles[p].pos.distance(manipulator_pos) < manipulator_radius && !m_Mesh->particles[p].fixed)
 			{
 				//m_Mesh->particles[p].fixed = true;
 				
@@ -165,7 +165,8 @@ void Simulator::CutLinks()
 	
 }
 
-void Simulator::fixParticles(){
+void Simulator::fixParticles()
+{
 	if (m_Manipulator)
 	{
 		Maths::Vector3 manipulator_pos = m_Manipulator->getPosition();
@@ -182,6 +183,77 @@ void Simulator::fixParticles(){
 	}
 }
 
-void saveFixedParticles(){
+void Simulator::saveFixedParticles()
+{
+	std::ofstream f;
+	f.open("save.txt");
+
+	if (f.is_open()){
+		for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
+		{
+		
+			if (m_Mesh->particles[p].fixed)
+			{
+				f << p << "\n";
+			}
+		}
+	}
+	f.close();
+}
+
+void Simulator::dropMesh(float offset)
+{
+	for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
+	{
+		m_Mesh->particles[p].pos.y -= offset;
+	}
+}
+
+void Simulator::restoreFixedParticles()
+{
+	std::ifstream f("save.txt");
+
+	if (f)
+	{
+		std::string line;
+
+		while (std::getline(f, line))
+		{
+			m_Mesh->particles[atoi(line.c_str())].fixed = true;
+		}
+	}
+	f.close();
+}
+
+void Simulator::translateMesh(Maths::Vector3 t)
+{
+	for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
+	{
+		m_Mesh->particles[p].pos -= t;
+	}
+	
+}
+
+void Simulator::rotateMesh()
+{
+	// calculate gravity center of the mesh
+	Maths::Vector3 center;
+	for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
+	{
+		center += m_Mesh->particles[p].pos;
+	}
+	center /= m_Mesh->particles.size();
+
+	// calculate rotation matrix 
+	Maths::Quaternion quaternion(&center);
+	Maths::Matrix4 rotation_matrix(quaternion);
+
+	for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
+	{
+		//m_Mesh->particles[p].pos = m_Mesh->particles[p].pos * rotation_matrix;
+	}
+
+
+
 
 }

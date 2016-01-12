@@ -7,6 +7,12 @@
 #include "Simulator.h"
 #include "HapticClient.h"
 
+#include "Leap.h"
+#include "LeapListener.h"
+
+#define HAPTIC 1
+#define MOUSE 0
+
 int last_mouse_x;
 int last_mouse_y;
 
@@ -17,6 +23,8 @@ RigidSphere sphere2;
 Simulator simulator;
 Mesh mesh;
 bool paused = false;
+Vector3 thumbPos;
+int move_mode = MOUSE;
 
 //Forward Declarations
 void hapticButtonClicked();
@@ -25,6 +33,14 @@ void app_loop();
 void mouseButtonClicked(int button_id, int x, int y);
 void mouseDragged(int x, int y) ;
 void keyPressed(unsigned char key);
+
+//Define Leap motion variables
+Leap::Controller controller;
+LeapListener listener;
+
+//Forward definition for the new interaction methods
+void leapCheckSwipeGesture();
+void leapCheckPinchGesture();
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -54,7 +70,9 @@ int main(int argc, char **argv) {
 
 	//Creates and initalizes the simulator which will update the mesh
 	simulator.setMesh(&mesh);
+	simulator.dropMesh(2.5);
 	simulator.setManipulator(&manipulator);
+	simulator.restoreFixedParticles();
 
 	//Fix particles inside of the spheres
 	//simulator.fixParticlesinSphere(&sphere1);
@@ -66,11 +84,25 @@ int main(int argc, char **argv) {
 
 	//Haptic
 	haptic_client.init();
-	
+
+	//Leap motion initialization
+
+	// Have the sample listener receive events from the controller
+	controller.addListener(listener);
+
+	//The leap motion have his own reference frame, provide a translation and scale 
+	//to ensure a common frame of reference
+	listener.setTranslationAndRotation(Vector3(0, 250, 150), 0.01f);
+
 
 	//Start the application loop. This function returns when the main window is closed
 	GUI::startApp(app_loop, mouseButtonClicked, mouseDragged, keyPressed);
+
+
+	// Remove the leap listener when done
+	controller.removeListener(listener);
 	
+
 	return 0;
 }
 
@@ -85,7 +117,9 @@ void app_loop()
 	if (!paused){
 		//Update the simulation
 		simulator.Update();
-		//manipulator.setPosition(haptic_client.getPosition());
+		if (move_mode == HAPTIC){
+			manipulator.setPosition(haptic_client.getPosition());
+		}
 	}
 	Maths::Vector3 retour = Maths::Vector3::ZERO;
 	//Update haptic simulation here!!
@@ -98,10 +132,14 @@ void app_loop()
 	}
 
 	retour = -retour;
-	haptic_client.setForce(retour);
+	haptic_client.setForce(retour/5);
 
 	//Check the button status of the haptic device
 	hapticButtonClicked();
+
+	//Check if the user has performed a gesture
+	leapCheckSwipeGesture();
+	leapCheckPinchGesture();
 	
 	//Diplay the 3D scene
 	Display();
@@ -121,6 +159,9 @@ void Display() {
 
 	//Draw the manipulator
 	manipulator.Draw();
+
+	//Draw the leap motion skeleton
+	listener.Draw(controller);
 	
 	//terminate the rendering, and display the drawn scene on the main window
 	GUI::end3DScene();
@@ -192,6 +233,49 @@ void keyPressed(unsigned char key) {
 	if (key == 's'){
 		simulator.saveFixedParticles();
 	}
+	if (key == 'm')
+		if (move_mode == HAPTIC)
+		{
+			move_mode = MOUSE;
+		}
+		else
+		{
+			move_mode = HAPTIC;
+		}
 	
 }
 
+void leapCheckPinchGesture()
+{
+	if (!listener.isHandVisible()) return;
+
+	Vector3 thumb = listener.getFingerTipPosition(0);
+	Vector3 index = listener.getFingerTipPosition(1);
+	
+	float dist = thumb.distance(index);
+
+	if (dist < 0.3f)
+	{
+		std::cout << "Pinch detected!!! " << dist << std::endl;
+		Vector3 diff = thumbPos - thumb;
+		thumbPos = thumb;
+		simulator.translateMesh(diff);
+	}
+	else
+	{
+		thumbPos = thumb;
+	}
+}
+
+void leapCheckSwipeGesture()
+{
+	float speed;
+	Vector3 direction;
+	int finger;
+
+	if (listener.isSwipe(speed, direction, finger))
+	{
+		std::cout << "[LeapMotion]" << " Swipe gesture(" << finger << ") : " << speed << "," << direction << std::endl;
+	}
+	
+}
