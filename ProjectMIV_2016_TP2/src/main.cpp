@@ -16,6 +16,14 @@
 int last_mouse_x;
 int last_mouse_y;
 
+float last_haptic_x;
+float last_haptic_y;
+float last_haptic_z;
+
+
+
+int scale_factor = 1;
+
 HapticClient haptic_client;
 RigidSphere manipulator;
 RigidSphere sphere1;
@@ -117,8 +125,16 @@ void app_loop()
 	if (!paused){
 		//Update the simulation
 		simulator.Update();
-		if (move_mode == HAPTIC){
-			manipulator.setPosition(haptic_client.getPosition());
+
+		if (move_mode == HAPTIC && !haptic_client.isButtonPressed(3)){
+
+			manipulator.Move(last_haptic_x - haptic_client.getPosition().x / scale_factor, 
+						     last_haptic_y - haptic_client.getPosition().y / scale_factor,
+							 last_haptic_z - haptic_client.getPosition().z / scale_factor);
+
+			last_haptic_x = haptic_client.getPosition().x;
+			last_haptic_y = haptic_client.getPosition().y;
+			last_haptic_z = haptic_client.getPosition().z;
 		}
 	}
 	Maths::Vector3 retour = Maths::Vector3::ZERO;
@@ -134,8 +150,20 @@ void app_loop()
 	retour = -retour;
 	haptic_client.setForce(retour/5);
 
+
 	//Check the button status of the haptic device
 	hapticButtonClicked();
+	
+	//Gestion des boutons haptiques
+	if (haptic_client.isButtonPressed(0)){
+		paused = !paused;
+	}
+	if (haptic_client.isButtonPressed(1)){
+		simulator.fixParticles();
+	}
+	if (haptic_client.isButtonPressed(2)){
+		simulator.saveFixedParticles();
+	}
 
 	//Check if the user has performed a gesture
 	leapCheckSwipeGesture();
@@ -233,7 +261,7 @@ void keyPressed(unsigned char key) {
 	if (key == 's'){
 		simulator.saveFixedParticles();
 	}
-	if (key == 'm')
+	if (key == 'm'){
 		if (move_mode == HAPTIC)
 		{
 			move_mode = MOUSE;
@@ -242,7 +270,13 @@ void keyPressed(unsigned char key) {
 		{
 			move_mode = HAPTIC;
 		}
-	
+	}
+	if (key == '+'){
+		scale_factor += 0.2;
+	}
+	if (key == '-'){
+		scale_factor -= 0.2;
+	}
 }
 
 void leapCheckPinchGesture()
