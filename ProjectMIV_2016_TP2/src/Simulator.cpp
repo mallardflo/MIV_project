@@ -160,9 +160,12 @@ void Simulator::fixParticlesinSphere(RigidSphere* sphere)
 	}
 }
 
-void Simulator::CutLinks() 
+void Simulator::CutLinks(Maths::Vector3 direction) 
 {
-	
+	for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
+	{
+
+	}
 }
 
 void Simulator::fixParticles()
@@ -191,7 +194,6 @@ void Simulator::saveFixedParticles()
 	if (f.is_open()){
 		for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
 		{
-		
 			if (m_Mesh->particles[p].fixed)
 			{
 				f << p << "\n";
@@ -234,9 +236,11 @@ void Simulator::translateMesh(Maths::Vector3 t)
 	
 }
 
-void Simulator::rotateMesh()
+void Simulator::rotateMesh(Maths::Vector3 prevPos, Maths::Vector3 currPos)
 {
-	// calculate gravity center of the mesh
+	/*
+
+	// calculate gravity center position of the mesh
 	Maths::Vector3 center;
 	for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
 	{
@@ -244,16 +248,18 @@ void Simulator::rotateMesh()
 	}
 	center /= m_Mesh->particles.size();
 
-	// calculate rotation matrix 
-	Maths::Quaternion quaternion(&center);
-	Maths::Matrix4 rotation_matrix(quaternion);
+	// get rotation angle
+	Maths::Radian angle;
+	angle = prevPos.angleBetween(currPos);
+
+	*/
+
+	// get rotation quaternion
+	Maths::Quaternion q;
+	q = prevPos.getRotationTo(currPos);
 
 	for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
 	{
-		//m_Mesh->particles[p].pos = m_Mesh->particles[p].pos * rotation_matrix;
+		m_Mesh->particles[p].pos = q * m_Mesh->particles[p].pos;
 	}
-
-
-
-
 }

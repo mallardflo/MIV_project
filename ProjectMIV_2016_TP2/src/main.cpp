@@ -285,15 +285,23 @@ void leapCheckPinchGesture()
 
 	Vector3 thumb = listener.getFingerTipPosition(0);
 	Vector3 index = listener.getFingerTipPosition(1);
+	Vector3 middle = listener.getFingerTipPosition(2);
 	
 	float dist = thumb.distance(index);
+	float dist2 = thumb.distance(middle);
 
 	if (dist < 0.3f)
 	{
-		std::cout << "Pinch detected!!! " << dist << std::endl;
+		std::cout << "Pinch between thumb and index detected!!! " << dist << std::endl;
 		Vector3 diff = thumbPos - thumb;
 		thumbPos = thumb;
 		simulator.translateMesh(diff);
+	}
+	else if (dist2 < 0.3f)
+	{
+		std::cout << "Pinch between thumb and middle detected!!! " << dist << std::endl;
+		simulator.rotateMesh(thumbPos, thumb);
+		thumbPos = thumb;
 	}
 	else
 	{
@@ -310,6 +318,10 @@ void leapCheckSwipeGesture()
 	if (listener.isSwipe(speed, direction, finger))
 	{
 		std::cout << "[LeapMotion]" << " Swipe gesture(" << finger << ") : " << speed << "," << direction << std::endl;
+		if (finger == 1)
+		{
+			simulator.CutLinks(direction);
+		}
 	}
 	
 }
