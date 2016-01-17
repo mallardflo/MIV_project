@@ -50,11 +50,14 @@ public:
 
 	void restoreFixedParticles();
 
+	void CutLinks(Maths::Vector3 direction);
+
 	void dropMesh(float offset);
 
 	void translateMesh(Maths::Vector3 t);
 
-	void rotateMesh();
+	void rotateMesh(Maths::Vector3 prevPos, Maths::Vector3 currPos);
+
 private:
 
 	//Updates the state of the mesh before display
