@@ -187,7 +187,29 @@ Question 9 :%TODO scrshot
 %  \label{fig:}
 %\end{figure}
 
-Question 10 :%TODO scrshots
+Question 10 :%TODO scrshot avec les positions des sphères
+%\begin{figure}
+%  \centering
+%  \includegraphics{}
+%  \caption{Le mesh du foie fixé.}
+%  \label{fig:}
+%\end{figure}
+
+%\begin{figure}
+%  \centering
+%  \includegraphics{}
+%  \caption{Implémentation de la fixation des points.}
+%  \label{fig:}
+%\end{figure}
+
+Question 11 : Afin d'atteindre les objectifs fixés, nous avons fixé une dizaine de points, un time step de 1/50e de seconde, et 20 boucles avant d'afficher le résultat.
+
+\section{TP3}
+
+Question 1 :
+
+Question 2 : Afin de mieux repérer les particules fixées, nous avons décidé de les colorer en bleu.
+% Image points fixés
 %\begin{figure}
 %  \centering
 %  \includegraphics{}
@@ -195,6 +217,56 @@ Question 10 :%TODO scrshots
 %  \label{fig:}
 %\end{figure}
 
-Question 11 :
+Question 3 : Nous avons choisi de fixer des points à l'intérieur du foie, afin que la simulation soit plus réaliste. En effet, de cette manière nous préservons la \og{}texture\fg{} du foie en autorisant la partie supérieure à bouger, comme si le foie était posé. Nous avons également souhaité conserver les lobes du fois afin de pouvoir les soulever.
 
+Question 4 : Nous avons choisi de sauvegarder les particules fixées dans un fichier de type texte, nommé \og{}save\fg{}. Si ce fichier existe déjà, il est chargé au lancement du programme. Celui-ci est écrasé à chaque appui sur la touche \og{}s\fg{}, ne laissant la possibiité que d'avoir une seule sauvegarde, à moins de la renommer manuellement.
+%\begin{figure}
+%  \centering
+%  \includegraphics{}
+%  \caption{Le mesh resemble à un rideau pendant.}
+%  \label{fig:}
+%\end{figure}
+
+Question 5 : Afin de permettre l'usage de la souris et du moniteur haptique au cours de la même simulation, nous avons ajouté une variable \og{}mode\fg{}, changée par l'appui sur la touche \og{}m\fg{}, qui permet d'autoriser le changement de position avec le moniteur haptique.
+% Image de code
+%\begin{figure}
+%  \centering
+%  \includegraphics{}
+%  \caption{Le mesh resemble à un rideau pendant.}
+%  \label{fig:}
+%\end{figure}
+
+Question 6 : Afin d'avoir un contrôle plus précis, nous avons implémenté un facteur permettant d'amplifier ou de diminuer les mouvements du manipulateur. Celui-ci est contrôlé par \og{}+\fg{} et \og{}-\fg{} pour augmenter ou diminuer sa valeur, par seuil de 0.2.
+%code
+%\begin{figure}
+%  \centering
+%  \includegraphics{}
+%  \caption{Le mesh resemble à un rideau pendant.}
+%  \label{fig:}
+%\end{figure}
+
+Question 7 : Voici la manière dont nous avons choisi d'implémenter une forme d'inertie à notre manipulateur lorsque le bras articulé arrive en bout de course :
+%code
+%\begin{figure}
+%  \centering
+%  \includegraphics{}
+%  \caption{Le mesh resemble à un rideau pendant.}
+%  \label{fig:}
+%\end{figure}
+% Image manipulateur loin
+%\begin{figure}
+%  \centering
+%  \includegraphics{}
+%  \caption{Le mesh resemble à un rideau pendant.}
+%  \label{fig:}
+%\end{figure}
+
+Question 8 : Nous avons choisi d'appuyer sur un des boutons du bras articulé afin de désactiver le mouvement du manipulateur. De cette manière nous pouvons remettre le bras à la position désirée avant de reprendre la manipulation.
+%code
+%\begin{figure}
+%  \centering
+%  \includegraphics{}
+%  \caption{Le mesh resemble à un rideau pendant.}
+%  \label{fig:}
+%\end{figure}
 \end{document}
