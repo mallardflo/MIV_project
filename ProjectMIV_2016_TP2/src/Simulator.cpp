@@ -160,12 +160,34 @@ void Simulator::fixParticlesinSphere(RigidSphere* sphere)
 	}
 }
 
-void Simulator::CutLinks(Maths::Vector3 direction) 
+void Simulator::checkCut() 
 {
+	Maths::Vector3 scalpel_pos = m_Scalpel->getPosition();
+	Maths::Real scalpel_radius = m_Scalpel->getRadius();
+
 	for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
 	{
+		Particle *particle = &(m_Mesh->particles[p]);
 
+		for (unsigned int n = 0; n <particle->neighbors.size(); n++)
+		{
+			Particle *neighbor = particle->neighbors[n];
+
+			// trouver le point median entre particle et neighbor
+			Maths::Vector3 median_pos;
+
+			if (median_pos.distance(scalpel_pos) < scalpel_radius)
+			{
+				// retirer particle de neighbor.neighbors et neighbor de particle.neighbors
+				CutLinks(particle, neighbor);
+			}
+		}
 	}
+}
+
+void Simulator::CutLinks(Particle* particle, Particle* neighbor)
+{
+	//todo
 }
 
 void Simulator::fixParticles()

@@ -26,6 +26,7 @@ int scale_factor = 1;
 
 HapticClient haptic_client;
 RigidSphere manipulator;
+RigidSphere scalpel;
 RigidSphere sphere1;
 RigidSphere sphere2;
 Simulator simulator;
@@ -33,6 +34,7 @@ Mesh mesh;
 bool paused = false;
 Vector3 thumbPos;
 int move_mode = MOUSE;
+int cut_mode = false;
 
 //Forward Declarations
 void hapticButtonClicked();
@@ -102,6 +104,9 @@ int main(int argc, char **argv) {
 	//to ensure a common frame of reference
 	listener.setTranslationAndRotation(Vector3(0, 250, 150), 0.01f);
 
+	//Create and initialize the scalpel to cut flesh
+	scalpel.setRadius(0.001f);
+	simulator.setScalpel(&scalpel);
 
 	//Start the application loop. This function returns when the main window is closed
 	GUI::startApp(app_loop, mouseButtonClicked, mouseDragged, keyPressed);
@@ -163,6 +168,11 @@ void app_loop()
 	}
 	if (haptic_client.isButtonPressed(2)){
 		simulator.saveFixedParticles();
+	}
+
+	if (cut_mode){
+		scalpel.setPosition(listener.getFingerTipPosition(1));
+		simulator.checkCut();
 	}
 
 	//Check if the user has performed a gesture
@@ -271,6 +281,10 @@ void keyPressed(unsigned char key) {
 			move_mode = HAPTIC;
 		}
 	}
+	if (key == 'c'){
+		cut_mode = !cut_mode;
+		std::cout << "Scalpel enabled: " << cut_mode << std::endl;
+	}
 	if (key == '+'){
 		scale_factor += 0.2;
 	}
@@ -318,10 +332,6 @@ void leapCheckSwipeGesture()
 	if (listener.isSwipe(speed, direction, finger))
 	{
 		std::cout << "[LeapMotion]" << " Swipe gesture(" << finger << ") : " << speed << "," << direction << std::endl;
-		if (finger == 1)
-		{
-			simulator.CutLinks(direction);
-		}
 	}
 	
 }

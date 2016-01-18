@@ -10,6 +10,7 @@ class Simulator {
 	//Mesh updated during the simulation
 	Mesh* m_Mesh;
 	RigidSphere* m_Manipulator;
+	RigidSphere* m_Scalpel;
 
 	//Gravity constant
 	static const float GRAVITY_CONSTANT;
@@ -37,6 +38,9 @@ public:
 	//Initialize the manipulator
 	inline void setManipulator(RigidSphere* m) {m_Manipulator = m;}
 
+	//Initialize the scalpel
+	inline void setScalpel(RigidSphere* s) {m_Scalpel = s;}
+
 	//Simulation step
 	void Update();
 
@@ -49,14 +53,15 @@ public:
 	void saveFixedParticles();
 
 	void restoreFixedParticles();
-
-	void CutLinks(Maths::Vector3 direction);
-
+	
 	void dropMesh(float offset);
 
 	void translateMesh(Maths::Vector3 t);
 
 	void rotateMesh(Maths::Vector3 prevPos, Maths::Vector3 currPos);
+
+	void checkCut();
+
 
 private:
 
@@ -70,7 +75,7 @@ private:
 	
 	void UpdateManipulator();
 	
-	void CutLinks();
+	void CutLinks(Particle* particle, Particle* neighbor);
 };
 
 #endif
