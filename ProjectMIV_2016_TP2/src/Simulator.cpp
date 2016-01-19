@@ -174,7 +174,7 @@ void Simulator::checkCut()
 			Particle *neighbor = particle->neighbors[n];
 
 			// trouver le point median entre particle et neighbor
-			Maths::Vector3 median_pos;
+			Maths::Vector3 median_pos = particle->pos.midPoint(neighbor->pos);
 
 			if (median_pos.distance(scalpel_pos) < scalpel_radius)
 			{
@@ -187,7 +187,41 @@ void Simulator::checkCut()
 
 void Simulator::CutLinks(Particle* particle, Particle* neighbor)
 {
-	//todo
+	for (std::vector<Particle*>::iterator iter = particle->neighbors.begin(); iter != particle->neighbors.end(); ++iter)
+	{
+		if (*iter == neighbor)
+		{
+			particle->neighbors.erase(iter);
+			break;
+		}
+	}
+
+	for (std::vector<Particle*>::iterator iter = neighbor->neighbors.begin(); iter != neighbor->neighbors.end(); ++iter)
+	{
+		if (*iter == particle)
+		{
+			neighbor->neighbors.erase(iter);
+			break;
+		}
+	}
+}
+
+void Simulator::checkOrphans()
+{
+	for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
+	{
+		if (m_Mesh->particles[p].neighbors.size() == 0)
+		{
+			for (std::vector<Particle>::iterator iter = m_Mesh->particles.begin(); iter != m_Mesh->particles.end(); ++iter)
+			{
+				if (&(*iter) == &(m_Mesh->particles[p]))
+				{
+					m_Mesh->particles.erase(iter);
+					break;
+				}
+			}
+		}
+	}
 }
 
 void Simulator::fixParticles()
