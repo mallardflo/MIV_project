@@ -120,9 +120,10 @@ Question 10 : Le modèle de Mass-Spring-Damper est assez simple à utiliser dès
 
 \section{TP2}
 
-Question 1 : Baisser la valeur d'amortissement résulte en une accélération de la chute et en une baisse de la stabilité. La vitesse relative est simplement une soustraction de vecteurs.
+Question 1 : Baisser la valeur d'amortissement résulte en une accélération de la chute et en une baisse de la stabilité. En effet, l'amortissement sert à compenser les interactions entre les particules, qui font osciller le mesh, et à simuler une interaction avec l'air. Diminuer ces \og{}frottements\fg{} accèlère donc la chute du rideau, et les particules ont des interactions plus fortes qui déstabilisent la simulation. Après quelques recherches, la vitesse relative est simplement une soustraction des vecteurs vitesses du voisin par rapport à la particule.
 
-Question 2 : Afin de simuler le sol, nous implémentons une limite de hauteur en dessous de laquelle les particules ne peuvent descendre, ayant pour effet de simuler un plan. %TODO image sol + code
+Question 2 : Afin de simuler le sol, nous implémentons une limite de hauteur en dessous de laquelle les particules ne peuvent descendre, ayant pour effet de simuler un plan. Cette méthode nous a posé un petit problème lorsque 
+%TODO image sol + code
 %\begin{figure}
 %  \centering
 %  \includegraphics{}
@@ -151,9 +152,9 @@ Question 4 : Le coefficient C, s'il est négatif, créé une attraction entre le
 Question 5 : %TODO code
 %\begin{figure}
 %  \centering
-%  \includegraphics{}
+%  \includegraphics{q5_tp2.png}
 %  \caption{Ajout du client haptique.}
-%  \label{fig:}
+%  \label{fig:q5tp2}
 %\end{figure}
 
 Question 6 :%TODO code
@@ -176,7 +177,7 @@ Question 8 :%TODO code
 %\begin{figure}
 %  \centering
 %  \includegraphics{}
-%  \caption{Le mesh resemble à un rideau pendant.}
+%  \caption{Le mesh ressemble à un rideau pendant.}
 %  \label{fig:}
 %\end{figure}
 
