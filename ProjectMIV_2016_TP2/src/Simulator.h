@@ -62,6 +62,7 @@ public:
 
 	void checkCut();
 
+	void checkOrphans();
 
 private:
 

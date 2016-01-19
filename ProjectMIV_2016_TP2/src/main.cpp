@@ -34,7 +34,7 @@ Mesh mesh;
 bool paused = false;
 Vector3 thumbPos;
 int move_mode = MOUSE;
-int cut_mode = false;
+bool cut_mode = false;
 
 //Forward Declarations
 void hapticButtonClicked();
@@ -105,7 +105,7 @@ int main(int argc, char **argv) {
 	listener.setTranslationAndRotation(Vector3(0, 250, 150), 0.01f);
 
 	//Create and initialize the scalpel to cut flesh
-	scalpel.setRadius(0.001f);
+	scalpel.setRadius(0.1f);
 	simulator.setScalpel(&scalpel);
 
 	//Start the application loop. This function returns when the main window is closed
@@ -171,9 +171,14 @@ void app_loop()
 	}
 
 	if (cut_mode){
+		// put the scalpel at the tip of the index
 		scalpel.setPosition(listener.getFingerTipPosition(1));
+		// check if scalpel is cutting flesh
 		simulator.checkCut();
 	}
+
+	// remove orphaned particles without neighbors from mesh
+	simulator.checkOrphans();
 
 	//Check if the user has performed a gesture
 	leapCheckSwipeGesture();
@@ -197,6 +202,12 @@ void Display() {
 
 	//Draw the manipulator
 	manipulator.Draw();
+
+	//Draw the scalpel 
+	if (cut_mode)
+	{
+		scalpel.Draw();
+	}
 
 	//Draw the leap motion skeleton
 	listener.Draw(controller);
