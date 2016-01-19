@@ -65,15 +65,15 @@
 
 \section{Tutoriel}
 
-Question 1: Comme indiqué dans les commentaires de la fonction, il y a deux fonctions dnas la boucle :
+Question 1: Comme indiqué dans les commentaires de la fonction, il y a deux fonctions dans la boucle :
 \begin{itemize}
     \item Bouger le monde;
     \item Afficher le monde.
 \end{itemize}
 
-Cela signifie que la fonciton va tout d'abord calculer le prochain mouvement, pour ensuite afficher la nouvelle position. Pour le moment, la phase de calcul n'est pas implémentée et rien ne bouge dans la simulation.
+Cela signifie que la fonction va tout d'abord calculer le prochain mouvement, pour ensuite afficher la nouvelle position. Pour le moment, la phase de calcul n'est pas implémentée et rien ne bouge dans la simulation.
 
-Question 2: Rien ne se passe. En effet même si nous calculons maintenant les forces, nous ne les appliquons pas au mesh, ce qui résulte en un écran fixe.
+Question 2: Nous ajoutons la gravité au \og{}force_accumulator\fg{}, et obtenons le résultat montré à la \textsc{Figure} \ref{fig:q2}, c'est-à-dire que rien ne se passe. En effet même si nous calculons maintenant les forces, nous ne les appliquons pas au mesh, ce qui résulte en un mesh toujours fixe. Il nous faut donc appliquer ces forces à chaque particule du mesh afin qu'un effet se fasse ressentir.
 \begin{figure}
   \centering
   \includegraphics{q2.png}
@@ -81,9 +81,9 @@ Question 2: Rien ne se passe. En effet même si nous calculons maintenant les fo
   \label{fig:q2}
 \end{figure}
 
-Question 3: Maintenant que nous appliquons les forces, le mesh tombe et finit par disparaitre de l'écran.
+Question 3: Maintenant que nous appliquons les forces, le mesh tombe et finit par disparaître de l'écran. Il semble qu'il n'y ait pas de limite physique à sa chute. On peut donc envisager un moyen afin que même si aucune autre interaction que la gravité ne s'applique au mesh, il reste dans le champ de l'écran.
 
-Question 4 : Afin de fixer le premier rang de particules, il nous faut nullifier les forces de ces partiules. Nous avons compté 10 particules sur ce rang, nous avons donc ajouté une boucle comme montré sur la \textsc{Figure} \ref{fig:q4}.
+Question 4 : Une autre solution a été proposée, il s'agit de fixer le premier rang des particules. Ainsi, le mesh reste visible et a un effet dit \og{}de rideau\fg{}. Pour ce faire, il nous faut nullifier les forces de ces particules. Nous avons compté dix particules sur ce rang, nous avons donc ajouté une boucle comme montré sur la \textsc{Figure} \ref{fig:q4}. Cette boucle met simplement les forces appliquées à ces dix particules à zéro, empêchant ainsi tout mouvement.
 \begin{figure}
   \centering
   \includegraphics{q4.png}
@@ -91,7 +91,7 @@ Question 4 : Afin de fixer le premier rang de particules, il nous faut nullifier
   \label{fig:q4}
 \end{figure}
 
-Question 5 : Le comportement est pour le moins étrange, car les particules oscillent de plus en plus jusqu'à disparaître.
+Question 5 : Le comportement est pour le moins étrange, car les particules oscillent de plus en plus jusqu'à disparaître. Pour le moment la simulation n'est pas stable, car les forces appliquées aux particules ne se compensent pas. Ceci aboutit, plus ou moins rapidement en fonction des paramètres de simulation choisis, à un écran contenant uniquement le premier rang de particules, demeuré fixe comme précisé à la question précédente.
 La \textsc{Figure} \ref{fig:q5} montre notre implémentation.
 \begin{figure}
   \centering
@@ -100,12 +100,13 @@ La \textsc{Figure} \ref{fig:q5} montre notre implémentation.
   \label{fig:q5}
 \end{figure}
 
-Question 6 : Le paramètre dt définit la vitesse de la simulation à travers le nombre d'itérations à  chaque fois. Une valeur plus petite correspond donc à une simulation plus rapide, car on calcule la position et les forces après un instant plus grand, le mouvmenent a donc été plus important.
-K définit la rigidité. Celle-ci va aider à obtenir l'effet de rideau désiré. Sachant cela, nous n'avons pas réussi à stabiliser la simulation.
+Question 6 : Le paramètre \og{}dt\fg{} définit la vitesse de la simulation à travers le nombre d'itérations à chaque fois. Une valeur plus petite correspond donc à une simulation plus rapide, car on calcule la position et les forces après un instant plus grand, le mouvement a donc été plus important.
+K définit la rigidité. Celle-ci va aider à obtenir l'effet de rideau désiré. Sachant cela, nous n'avons pas réussi à stabiliser la simulation. En effet même si le rideau est considéré comme plus rigide, les forces des particules ne se compensent pas et donnent le même résultat que précédemment.
 
-Question 7 : Le CPU est bien plus actif après que nous ayons implémenté la boucle, car même si nous n'affichons pas les résultats les calculs se font.
+Question 7 : Nous ajoutons la boucle demandée qui effectue \textit{n} appels à \og{}Update\fg{} avec un timestep désormais divisé par \textit{n}. Le but de cette manipulation est d'avoir un mouvement plus petit, car calculé sur un plus petit pas de temps. Grâce à cela les interactions calculées sont plus fines et donc plus réalistes. Bien entendu, cela implique aussi plus de calculs, et donc un coût plus important pour le processeur. Le CPU est bien plus actif après que nous ayons implémenté cette modification. 
 
-Question 8 : En amortissant la chute des particules, nous arrivons à stabiliser la simulation. L'amortissement simule l'interaction des particules avec l'air ambiant.%TODO Image(s) de la chute et/ou du résultat
+Question 8 : En amortissant la chute des particules, nous arrivons à stabiliser la simulation. L'amortissement simule l'interaction des particules avec l'air ambiant. C'est lui qui va réussir à compenser les interactions des particules entre elles et empêcher une oscillation de plus en plus importante comme observée précédemment. 
+%TODO Image(s) de la chute et/ou du résultat
 %\begin{figure}
 %  \centering
 %  \includegraphics{}
@@ -113,9 +114,9 @@ Question 8 : En amortissant la chute des particules, nous arrivons à stabiliser
 %  \label{fig:}
 %\end{figure}
 
-Question 9 : 	Avec dt = 1/200, K = 300, et n = 20, nous arrivons à une simulation stable.
+Question 9 : 	Avec dt = 1/200, K = 300, et n = 20, nous arrivons à une simulation stable. Mais ces paramètres sont très coûteux en ressources car avec dt = 1 / 200 et n = 20, cela signifie que nous effectuons quatre mille fois la boucle \og{}Update\fg{} par seconde. Plus tard, et sur des ordinateurs moins puissants, nous préférerons utiliser un dt de 1/50. Cela n'affecte pas trop la simulation mais permet de diminuer significativement le coût en ressources.
 
-Question 10 : Le modèle de Mass-Spring-Damper est assez simple à utiliser dès lors que les formules à appliquer sont à disposition. En revanche, pour obtenir une simulation stable, le moindre écart dans les paramètres peut créer une simulation tout à fait exotique.
+Question 10 : Le modèle de Mass-Spring-Damper est assez simple à utiliser dès lors que les formules à appliquer sont à disposition. En revanche, pour obtenir une simulation stable, le moindre écart dans les paramètres peut créer une simulation tout à fait exotique. En effet nous avons vu que diminuer la rigidité du mesh pouvait conduire à une simulation qui n'était pas réaliste, car le mesh se comportait plus comme une plaque pivotante que comme un rideau. Appliquer un amortissement trop fort rend la simulation trop longue pour être réaliste.
 
 \section{TP2}
 
@@ -219,7 +220,7 @@ Question 2 : Afin de mieux repérer les particules fixées, nous avons décidé 
 
 Question 3 : Nous avons choisi de fixer des points à l'intérieur du foie, afin que la simulation soit plus réaliste. En effet, de cette manière nous préservons la \og{}texture\fg{} du foie en autorisant la partie supérieure à bouger, comme si le foie était posé. Nous avons également souhaité conserver les lobes du fois afin de pouvoir les soulever.
 
-Question 4 : Nous avons choisi de sauvegarder les particules fixées dans un fichier de type texte, nommé \og{}save\fg{}. Si ce fichier existe déjà, il est chargé au lancement du programme. Celui-ci est écrasé à chaque appui sur la touche \og{}s\fg{}, ne laissant la possibiité que d'avoir une seule sauvegarde, à moins de la renommer manuellement.
+Question 4 : Nous avons choisi de sauvegarder les particules fixées dans un fichier de type texte, nommé \og{}save\fg{}. Si ce fichier existe déjà, il est chargé au lancement du programme. Celui-ci est écrasé à chaque appui sur la touche \og{}s\fg{}, ne laissant la possibilité que d'avoir une seule sauvegarde, à moins de la renommer manuellement.
 %\begin{figure}
 %  \centering
 %  \includegraphics{}
