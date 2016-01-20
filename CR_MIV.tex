@@ -73,7 +73,7 @@ Question 1: Comme indiqué dans les commentaires de la fonction, il y a deux fon
 
 Cela signifie que la fonction va tout d'abord calculer le prochain mouvement, pour ensuite afficher la nouvelle position. Pour le moment, la phase de calcul n'est pas implémentée et rien ne bouge dans la simulation.
 
-Question 2: Nous ajoutons la gravité au \og{}force_accumulator\fg{}, et obtenons le résultat montré à la \textsc{Figure} \ref{fig:q2}, c'est-à-dire que rien ne se passe. En effet même si nous calculons maintenant les forces, nous ne les appliquons pas au mesh, ce qui résulte en un mesh toujours fixe. Il nous faut donc appliquer ces forces à chaque particule du mesh afin qu'un effet se fasse ressentir.
+Question 2: Nous ajoutons la gravité au \og{}force\_accumulator\fg{}, et obtenons le résultat montré à la \textsc{Figure} \ref{fig:q2}, c'est-à-dire que rien ne se passe. En effet même si nous calculons maintenant les forces, nous ne les appliquons pas au mesh, ce qui résulte en un mesh toujours fixe. Il nous faut donc appliquer ces forces à chaque particule du mesh afin qu'un effet se fasse ressentir.
 \begin{figure}
   \centering
   \includegraphics{q2.png}
@@ -120,9 +120,9 @@ Question 10 : Le modèle de Mass-Spring-Damper est assez simple à utiliser dès
 
 \section{TP2}
 
-Question 1 : Baisser la valeur d'amortissement résulte en une accélération de la chute et en une baisse de la stabilité. En effet, l'amortissement sert à compenser les interactions entre les particules, qui font osciller le mesh, et à simuler une interaction avec l'air. Diminuer ces \og{}frottements\fg{} accèlère donc la chute du rideau, et les particules ont des interactions plus fortes qui déstabilisent la simulation. Après quelques recherches, la vitesse relative est simplement une soustraction des vecteurs vitesses du voisin par rapport à la particule.
+Question 1 : Baisser la valeur d'amortissement résulte en une accélération de la chute et en une baisse de la stabilité. En effet, l'amortissement sert à compenser les interactions entre les particules, qui font osciller le mesh, et à simuler une interaction avec l'air. Diminuer ces \og{}frottements\fg{} accélère donc la chute du rideau, et les particules ont des interactions plus fortes qui déstabilisent la simulation. Après quelques recherches, la vitesse relative est simplement une soustraction des vecteurs vitesses du voisin par rapport à la particule.
 
-Question 2 : Afin de simuler le sol, nous implémentons une limite de hauteur en dessous de laquelle les particules ne peuvent descendre, ayant pour effet de simuler un plan. Cette méthode nous a posé un petit problème lorsque 
+Question 2 : Afin de simuler le sol, nous implémentons une limite de hauteur en dessous de laquelle les particules ne peuvent descendre, ayant pour effet de simuler un plan. Cette méthode nous a posé un petit problème lorsque les particules descendaient un peu plus bas que le seuil fixé, car nous supprimions alors toutes les forces sur les particules, et le manipulateur n’interagissait plus avec.
 %TODO image sol + code
 %\begin{figure}
 %  \centering
@@ -138,7 +138,7 @@ Question 2 : Afin de simuler le sol, nous implémentons une limite de hauteur en
 %  \label{fig:}
 %\end{figure}
 
-Question 3 : Nous avons simplement changé la couleur de notre manipulator, que nous montrons ci-dessous : %TODO
+Question 3 : Afin de ne pas passer trop de temps sur une question qui ne nous semblait pas essentielle, nous avons simplement changé la couleur de notre manipulator, que nous montrons ci-dessous : %TODO
 %\begin{figure}
 %  \centering
 %  \includegraphics{}
@@ -147,9 +147,24 @@ Question 3 : Nous avons simplement changé la couleur de notre manipulator, que 
 %\end{figure}
 
 
-Question 4 : Le coefficient C, s'il est négatif, créé une attraction entre le manipulator et le mesh. En revanche, s'il est positif, les deux objets se repoussent.
+Question 4 : Le coefficient C, s'il est négatif, créé une attraction entre le manipulator et le mesh. En revanche, s'il est positif, les deux objets se repoussent. Celui-ci peut permettre de simuler les propriétés adhérentes ou répulsives (à cause du contact) de différents outils qui pourraient être utilisés en chirurgie.
+%TODO scrshot
+%\begin{figure}
+%  \centering
+%  \includegraphics{q4_tp2_1.png}
+%  \caption{Le mesh est attiré par le manipulateur.}
+%  \label{fig:q5tp2}
+%\end{figure}
+%\begin{figure}
+%  \centering
+%  \includegraphics{q4_tp2_2.png}
+%  \caption{Le mesh est repoussé par le manipulateur.}
+%  \label{fig:q5tp2_2}
+%\end{figure}
 
-Question 5 : %TODO code
+
+Question 5 : Les modifications demandées afin de rendre possibles les manipulations avec le client haptique. Ainsi, nous avons choisi d'associer la position du manipulateur à celle du client haptique. De cette manière, les mouvements du manipulateur sont limités, car le bras articulé l'est lui-même, et on a un contrôle très instinctif.
+%TODO code
 %\begin{figure}
 %  \centering
 %  \includegraphics{q5_tp2.png}
@@ -157,7 +172,8 @@ Question 5 : %TODO code
 %  \label{fig:q5tp2}
 %\end{figure}
 
-Question 6 :%TODO code
+Question 6 : Pour améliorer le réalisme, un retour de force est rendu possible par le client haptique. Cette fonction se révèle très utile afin de simuler la résistance que l'on peut rencontrer lors d'une manipulation, surtout dans un domaine comme la chirurgie.
+%TODO code
 %\begin{figure}
 %  \centering
 %  \includegraphics{}
@@ -165,12 +181,13 @@ Question 6 :%TODO code
 %  \label{fig:}
 %\end{figure}
 
-Question 7 :%TODO code
+Question 7 : Le client haptique dispose de quatre boutons, pouvant être associés aux fonctions de notre choix. Pour pouvoir utiliser ces boutons, une fonction \og{}HapticButtonClicked\fg{} a été mise à notre disposition afin de la compléter. Son rôle se résume pour le moment à détecter lorsqu'on appuie sur un des boutons du client haptique. Cette détection se fait grâce au code de la \textsc{Figure}~\ref{fig:clic}.
+%TODO code
 %\begin{figure}
 %  \centering
 %  \includegraphics{}
 %  \caption{Ajout du clic avec le client haptique.}
-%  \label{fig:}
+%  \label{fig:clic}
 %\end{figure}
 
 Question 8 :%TODO code
@@ -181,7 +198,7 @@ Question 8 :%TODO code
 %  \label{fig:}
 %\end{figure}
 
-Question 9 :%TODO scrshot
+Question 9 : Après changement du mesh, l'aspect de la simulation est donné dans la \textsc{Figure} \ref{fig:foie}. Après quelques changements dans les paramètres de simulation, nous décidons que la simulation est stable avec les mêmes valeurs que précédemment. Pour rappel, celles-ci étaient : dt = 1/50, K = 300, et n = 20.
 %\begin{figure}
 %  \centering
 %  \includegraphics{}
@@ -189,7 +206,8 @@ Question 9 :%TODO scrshot
 %  \label{fig:}
 %\end{figure}
 
-Question 10 :%TODO scrshot avec les positions des sphères
+Question 10 : Dans un premier temps, nous avons fixé tous les points en contact avec la manipulateur, à l'appui sur la touche \og{}f\fg{}. Dans un second temps, nous avons cherché les positions des sphères qui avaient un rendu que nous avons jugé correct au lancement de la simulation. Dans un souci de visibilité, les sphères \og{}de fixation\fg{} n'ont pas été dessinées.
+%TODO scrshot avec les positions des sphères
 %\begin{figure}
 %  \centering
 %  \includegraphics{}
@@ -204,24 +222,25 @@ Question 10 :%TODO scrshot avec les positions des sphères
 %  \label{fig:}
 %\end{figure}
 
-Question 11 : Afin d'atteindre les objectifs fixés, nous avons fixé une dizaine de points, un time step de 1/50e de seconde, et 20 boucles avant d'afficher le résultat.
+Question 11 : Afin d'atteindre les objectifs fixés, nous avons fixé une dizaine de points, un time step de 1/50e de seconde, et 20 boucles avant d'afficher le résultat. En somme nous avons gardé les paramètres trouvés auparavant.
 
 \section{TP3}
 
 Question 1 :
 
-Question 2 : Afin de mieux repérer les particules fixées, nous avons décidé de les colorer en bleu.
+Question 2 : Afin de mieux repérer les particules fixées, nous avons décidé de les colorer en bleu. Le résultat de cette modification est montré dans la \textsc{Figure}~\ref{fig:fixed}. Nous avons choisi le bleu car, selon nous, c'est une couleur qui se voyait suffisamment facilement et qui n'était pas associée à un état négatif.
 % Image points fixés
 %\begin{figure}
 %  \centering
 %  \includegraphics{}
 %  \caption{Le mesh resemble à un rideau pendant.}
-%  \label{fig:}
+%  \label{fig:fixed}
 %\end{figure}
 
-Question 3 : Nous avons choisi de fixer des points à l'intérieur du foie, afin que la simulation soit plus réaliste. En effet, de cette manière nous préservons la \og{}texture\fg{} du foie en autorisant la partie supérieure à bouger, comme si le foie était posé. Nous avons également souhaité conserver les lobes du fois afin de pouvoir les soulever.
+Question 3 : Nous avons choisi de fixer des points à l'intérieur du foie, afin que la simulation soit plus réaliste. En effet, de cette manière nous préservons la \og{}texture\fg{} du foie en autorisant la partie supérieure à bouger, comme si le foie était posé. Nous avons également souhaité conserver les lobes du foie afin de pouvoir les soulever. Ceci rend la manipulation facile tout en gardant un réalisme dans la simulation, ce qui est le but final de ce projet.
 
-Question 4 : Nous avons choisi de sauvegarder les particules fixées dans un fichier de type texte, nommé \og{}save\fg{}. Si ce fichier existe déjà, il est chargé au lancement du programme. Celui-ci est écrasé à chaque appui sur la touche \og{}s\fg{}, ne laissant la possibilité que d'avoir une seule sauvegarde, à moins de la renommer manuellement.
+Question 4 : Nous avons choisi de sauvegarder les particules fixées dans un fichier de type texte, nommé \og{}save\fg{}. Si ce fichier existe déjà, il est chargé au lancement du programme. Celui-ci est écrasé à chaque appui sur la touche \og{}s\fg{}, ne laissant la possibilité que d'avoir une seule sauvegarde, à moins de la renommer manuellement. La \textsc{Figure}~\ref{fig:save} montre la fonction de sauvegarde telle que nous l'avons implémentée. 
+%TODO code
 %\begin{figure}
 %  \centering
 %  \includegraphics{}
@@ -229,7 +248,16 @@ Question 4 : Nous avons choisi de sauvegarder les particules fixées dans un fic
 %  \label{fig:}
 %\end{figure}
 
-Question 5 : Afin de permettre l'usage de la souris et du moniteur haptique au cours de la même simulation, nous avons ajouté une variable \og{}mode\fg{}, changée par l'appui sur la touche \og{}m\fg{}, qui permet d'autoriser le changement de position avec le moniteur haptique.
+Au chargement, nous cherchons ce fichier de sauvegarde. S'il n'existe pas à l'endroit où il est sauvegardé initialement, alors aucune particule n'est fixée et la simulation commence. En revanche, dans le cas contraire nous parcourons le fichier et fixons les particules dont le numéro apparaît. La \textsc{Figure}~\ref{fig:save} montre le code remplissant ce rôle.
+%TODO code
+%\begin{figure}
+%  \centering
+%  \includegraphics{}
+%  \caption{Le mesh resemble à un rideau pendant.}
+%  \label{fig:}
+%\end{figure}
+
+Question 5 : Afin de pouvoir alterner entre l'utilisation de la souris et le moniteur haptique, nous avons choisi d'ajouter une variable à notre code. Celle-ci peut prendre deux valeurs qui correspondent aux deux modes possibles. Ainsi, lors de l'appui sur la touche \og{]m\fg{}, on change le mode courant. Cet ajout s'accompagne bien sûr de vérifications de sa valeur afin d'exécuter la partie de code correspondant au bon mode.
 % Image de code
 %\begin{figure}
 %  \centering
@@ -238,7 +266,7 @@ Question 5 : Afin de permettre l'usage de la souris et du moniteur haptique au c
 %  \label{fig:}
 %\end{figure}
 
-Question 6 : Afin d'avoir un contrôle plus précis, nous avons implémenté un facteur permettant d'amplifier ou de diminuer les mouvements du manipulateur. Celui-ci est contrôlé par \og{}+\fg{} et \og{}-\fg{} pour augmenter ou diminuer sa valeur, par seuil de 0.2.
+Question 6 : Dans le but de contrôler avec le plus de précision possible le manipulateur, l'implémentation d'un facteur qui jouerait sur la sensibilité des manipulations était demandée. Ce facteur, nommé \og{}scale\fg{}, peut être changé dynamiquement. Nous avons choisi les touches \og{}flèche haut\fg{} et \og{}flèche bas\fg{} afin d'effectuer les modifications. La \textsc{Figure} \ref{fig:alternance} montre la manière dont nous avons implémenté cette amélioration. Nos pouvons y voir que nous avons choisi un pas d'une valeur de 0.2.
 %code
 %\begin{figure}
 %  \centering
