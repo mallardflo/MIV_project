@@ -1,0 +1,292 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2015.10.18)  19 JAN 2016 15:53
+entering extended mode
+**CR_MIV.tex
+(CR_MIV.tex
+LaTeX2e <2015/01/01> patch level 2
+Babel <3.9m> and hyphenation patterns for 69 languages loaded.
+(E:\Programmes\Editeurs\LateX\tex\latex\base\article.cls
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+(E:\Programmes\Editeurs\LateX\tex\latex\base\size12.clo
+File: size12.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+) (E:\Programmes\Editeurs\LateX\tex\latex\ucs\ucs.sty
+Package: ucs 2013/05/11 v2.2 UCS: Unicode input support
+
+(E:\Programmes\Editeurs\LateX\tex\latex\ucs\uni-global.def
+File: uni-global.def 2013/05/13 UCS: Unicode global data
+)
+\uc@secondtry=\count87
+\uc@combtoks=\toks14
+\uc@combtoksb=\toks15
+\uc@temptokena=\toks16
+) (E:\Programmes\Editeurs\LateX\tex\latex\base\inputenc.sty
+Package: inputenc 2015/03/17 v1.2c Input encoding file
+\inpenc@prehook=\toks17
+\inpenc@posthook=\toks18
+
+(E:\Programmes\Editeurs\LateX\tex\latex\ucs\utf8x.def
+File: utf8x.def 2004/10/17 UCS: Input encoding UTF-8
+)) (E:\Programmes\Editeurs\LateX\tex\latex\base\fontenc.sty
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+(E:\Programmes\Editeurs\LateX\tex\latex\base\t1enc.def
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
+)) (E:\Programmes\Editeurs\LateX\tex\generic\babel\babel.sty
+Package: babel 2015/08/03 3.9m The Babel package
+
+*************************************
+* Local config file bblopts.cfg used
+*
+(E:\Programmes\Editeurs\LateX\tex\latex\00miktex\bblopts.cfg
+File: bblopts.cfg 2006/07/31 v1.0 MiKTeX 'babel' configuration
+)
+(E:\Programmes\Editeurs\LateX\tex\latex\babel-french\frenchb.ldf
+Language: frenchb 2015/10/04 v3.1i French support from the babel system
+
+(E:\Programmes\Editeurs\LateX\tex\generic\babel\babel.def
+File: babel.def 2015/08/03 3.9m Babel common definitions
+\babel@savecnt=\count88
+\U@D=\dimen103
+)
+\l@acadian = a dialect from \language\l@french 
+\l@canadien = a dialect from \language\l@french 
+\FBcolonskip=\skip43
+\FBthinskip=\skip44
+\FB@interchartokenstateORI=\count89
+Package babel Info: Making : an active character on input line 356.
+Package babel Info: Making ; an active character on input line 357.
+Package babel Info: Making ! an active character on input line 358.
+Package babel Info: Making ? an active character on input line 359.
+\FBguillskip=\skip45
+\FBguill@level=\count90
+\FB@Mht=\dimen104
+\std@mcc=\count91
+\dec@mcc=\count92
+\listindentFB=\skip46
+\labelwidthFB=\skip47
+\leftmarginFB=\skip48
+\parindentFFN=\dimen105
+))
+(E:\Programmes\Editeurs\LateX\tex\latex\carlisle\scalefnt.sty)
+(E:\Programmes\Editeurs\LateX\tex\latex\graphics\keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks19
+)
+(E:\Programmes\Editeurs\LateX\tex\latex\graphics\graphicx.sty
+Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+
+(E:\Programmes\Editeurs\LateX\tex\latex\graphics\graphics.sty
+Package: graphics 2014/10/28 v1.0p Standard LaTeX Graphics (DPC,SPQR)
+ (E:\Programmes\Editeurs\LateX\tex\latex\graphics\trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+) (E:\Programmes\Editeurs\LateX\tex\latex\00miktex\graphics.cfg
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 94.
+
+(E:\Programmes\Editeurs\LateX\tex\latex\pdftex-def\pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+(E:\Programmes\Editeurs\LateX\tex\generic\oberdiek\infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+(E:\Programmes\Editeurs\LateX\tex\generic\oberdiek\ltxcmds.sty
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count93
+))
+\Gin@req@height=\dimen106
+\Gin@req@width=\dimen107
+)
+(E:\Programmes\Editeurs\LateX\tex\latex\subfigure\subfigure.sty
+Package: subfigure 2002/07/30 v2.1.4 subfigure package
+\subfigtopskip=\skip49
+\subfigcapskip=\skip50
+\subfigcaptopadj=\dimen108
+\subfigbottomskip=\skip51
+\subfigcapmargin=\dimen109
+\subfiglabelskip=\skip52
+\c@subfigure=\count94
+\c@lofdepth=\count95
+\c@subtable=\count96
+\c@lotdepth=\count97
+
+****************************************
+* Local config file subfigure.cfg used *
+****************************************
+(E:\Programmes\Editeurs\LateX\tex\latex\subfigure\subfigure.cfg)
+\subfig@top=\skip53
+\subfig@bottom=\skip54
+)
+(E:\Programmes\Editeurs\LateX\tex\latex\graphics\color.sty
+Package: color 2014/10/28 v1.1a Standard LaTeX Color (DPC)
+ (E:\Programmes\Editeurs\LateX\tex\latex\00miktex\color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 142.
+)
+(E:\Programmes\Editeurs\LateX\tex\latex\listings\listings.sty
+\lst@mode=\count98
+\lst@gtempboxa=\box26
+\lst@token=\toks20
+\lst@length=\count99
+\lst@currlwidth=\dimen110
+\lst@column=\count100
+\lst@pos=\count101
+\lst@lostspace=\dimen111
+\lst@width=\dimen112
+\lst@newlines=\count102
+\lst@lineno=\count103
+\lst@maxwidth=\dimen113
+
+(E:\Programmes\Editeurs\LateX\tex\latex\listings\lstmisc.sty
+File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
+\c@lstnumber=\count104
+\lst@skipnumbers=\count105
+\lst@framebox=\box27
+)
+(E:\Programmes\Editeurs\LateX\tex\latex\listings\listings.cfg
+File: listings.cfg 2015/06/04 1.6 listings configuration
+))
+Package: listings 2015/06/04 1.6 (Carsten Heinz)
+
+(E:\Programmes\Editeurs\LateX\tex\latex\oberdiek\listingsutf8.sty
+Package: listingsutf8 2011/11/10 v1.2 Allow UTF-8 in listings input (HO)
+
+(E:\Programmes\Editeurs\LateX\tex\generic\oberdiek\pdftexcmds.sty
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO)
+
+(E:\Programmes\Editeurs\LateX\tex\generic\oberdiek\ifluatex.sty
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+(E:\Programmes\Editeurs\LateX\tex\generic\oberdiek\ifpdf.sty
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(E:\Programmes\Editeurs\LateX\tex\generic\oberdiek\stringenc.sty
+Package: stringenc 2011/12/02 v1.10 Convert strings between diff. encodings (HO)
+
+(E:\Programmes\Editeurs\LateX\tex\generic\oberdiek\pdfescape.sty
+Package: pdfescape 2011/11/25 v1.13 Implements pdfTeX's escape features (HO)
+)))
+(E:\Programmes\Editeurs\LateX\tex\latex\listings\lstlang1.sty
+File: lstlang1.sty 2015/06/04 1.6 listings language file
+)
+(E:\Programmes\Editeurs\LateX\tex\latex\listings\lstlang1.sty
+File: lstlang1.sty 2015/06/04 1.6 listings language file
+) (CR_MIV.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 63.
+LaTeX Font Info:    ... okay on input line 63.
+
+(E:\Programmes\Editeurs\LateX\tex\latex\ucs\ucsencs.def
+File: ucsencs.def 2011/01/21 Fixes to fontencodings LGR, T3
+)
+LaTeX Info: Redefining \degres on input line 63.
+LaTeX Info: Redefining \dots on input line 63.
+LaTeX Info: Redefining \up on input line 63.
+ (E:\Programmes\Editeurs\LateX\tex\context\base\supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count106
+\scratchdimen=\dimen114
+\scratchbox=\box28
+\nofMPsegments=\count107
+\nofMParguments=\count108
+\everyMPshowfont=\toks21
+\MPscratchCnt=\count109
+\MPscratchDim=\dimen115
+\MPnumerator=\count110
+\makeMPintoPDFobject=\count111
+\everyMPtoPDFconversion=\toks22
+)
+\c@lstlisting=\count112
+ (E:\Programmes\Editeurs\LateX\tex\latex\ucs\uni-0.def
+File: uni-0.def 2013/05/13 UCS: Unicode data U+0000..U+00FF
+)
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <14.4> on input line 64.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 64.
+ <q2.png, id=1, 431.36156pt x 282.30469pt>
+File: q2.png Graphic file (type png)
+ <use q2.png>
+Package pdftex.def Info: q2.png used on input line 79.
+(pdftex.def)             Requested size: 431.3605pt x 282.30399pt.
+
+Overfull \hbox (41.3605pt too wide) in paragraph at lines 79--80
+ [][] 
+ []
+
+<q4.png, id=2, 416.30531pt x 177.66376pt>
+File: q4.png Graphic file (type png)
+ <use q4.png>
+Package pdftex.def Info: q4.png used on input line 89.
+(pdftex.def)             Requested size: 416.30429pt x 177.66331pt.
+
+Overfull \hbox (26.30429pt too wide) in paragraph at lines 89--90
+ [][] 
+ []
+
+<q5.png, id=3, 462.97969pt x 219.06844pt>
+File: q5.png Graphic file (type png)
+ <use q5.png>
+Package pdftex.def Info: q5.png used on input line 98.
+(pdftex.def)             Requested size: 462.97855pt x 219.06789pt.
+
+Overfull \hbox (72.97855pt too wide) in paragraph at lines 98--99
+ [][] 
+ []
+
+[1
+
+{C:/Users/Flo/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2 <./q2.png> <./q4.png>] [3 <./q5.png>]
+(E:\Programmes\Editeurs\LateX\tex\latex\ucs\uni-32.def
+File: uni-32.def 2013/05/13 UCS: Unicode data U+2000..U+20FF
+) [4] [5] [6] (CR_MIV.aux) ) 
+Here is how much of TeX's memory you used:
+ 5279 strings out of 493673
+ 71900 string characters out of 3143586
+ 165391 words of memory out of 3000000
+ 8573 multiletter control sequences out of 15000+200000
+ 10735 words of font info for 26 fonts, out of 3000000 for 9000
+ 1025 hyphenation exceptions out of 8191
+ 29i,7n,47p,609b,597s stack positions out of 5000i,500n,10000p,200000b,50000s
+ <C:\Users\Flo\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecti1200.pk> <C:\
+Users\Flo\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\eccc1200.pk> <C:\Users\Flo\AppData\Local\MiKTeX\2.
+9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1200.pk> <C:\Users\Flo\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi
+600\ecbx1728.pk> <C:\Users\Flo\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\eccc1440.pk> <C:\Users\Flo\Ap
+pData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1440.pk> <C:\Users\Flo\AppData\Local\MiKTeX\2.9\fonts\pk\l
+jfour\jknappen\ec\dpi600\ecrm2074.pk>
+Output written on CR_MIV.pdf (6 pages, 99270 bytes).
+PDF statistics:
+ 207 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
+

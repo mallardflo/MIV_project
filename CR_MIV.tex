@@ -109,9 +109,21 @@ Question 8 : En amortissant la chute des particules, nous arrivons à stabiliser
 %TODO Image(s) de la chute et/ou du résultat
 %\begin{figure}
 %  \centering
-%  \includegraphics{}
-%  \caption{Le mesh ressemble à un rideau pendant.}
-%  \label{fig:}
+%  \includegraphics{rideau_code.png}
+%  \caption{La boucle fixant la première rangée.}
+%  \label{fig:rideauCode}
+%\end{figure}
+%\begin{figure}
+%  \centering
+%  \includegraphics{rideau_chute.png}
+%  \caption{Le mesh pendant la chute.}
+%  \label{fig:rideauCode}
+%\end{figure}
+%\begin{figure}
+%  \centering
+%  \includegraphics{rideau_fin.png}
+%  \caption{Le mesh stabilisé.}
+%  \label{fig:rideauCode}
 %\end{figure}
 
 Question 9 : 	Avec dt = 1/200, K = 300, et n = 20, nous arrivons à une simulation stable. Mais ces paramètres sont très coûteux en ressources car avec dt = 1 / 200 et n = 20, cela signifie que nous effectuons quatre mille fois la boucle \og{}Update\fg{} par seconde. Plus tard, et sur des ordinateurs moins puissants, nous préférerons utiliser un dt de 1/50. Cela n'affecte pas trop la simulation mais permet de diminuer significativement le coût en ressources.
@@ -126,14 +138,14 @@ Question 2 : Afin de simuler le sol, nous implémentons une limite de hauteur en
 %TODO image sol + code
 %\begin{figure}
 %  \centering
-%  \includegraphics{}
+%  \includegraphics{sol_code.png}
 %  \caption{Implémentation du sol.}
 %  \label{fig:}
 %\end{figure}
 
 %\begin{figure}
 %  \centering
-%  \includegraphics{}
+%  \includegraphics{sol_image.png}
 %  \caption{Rideau tombé sur le sol.}
 %  \label{fig:}
 %\end{figure}
@@ -141,7 +153,7 @@ Question 2 : Afin de simuler le sol, nous implémentons une limite de hauteur en
 Question 3 : Afin de ne pas passer trop de temps sur une question qui ne nous semblait pas essentielle, nous avons simplement changé la couleur de notre manipulator, que nous montrons ci-dessous : %TODO
 %\begin{figure}
 %  \centering
-%  \includegraphics{}
+%  \includegraphics{manipulateur.png}
 %  \caption{Le manipulateur est maintenant de couleur rouge.}
 %  \label{fig:}
 %\end{figure}
@@ -167,7 +179,7 @@ Question 5 : Les modifications demandées afin de rendre possibles les manipulat
 %TODO code
 %\begin{figure}
 %  \centering
-%  \includegraphics{q5_tp2.png}
+%  \includegraphics{ajout_haptique.png}
 %  \caption{Ajout du client haptique.}
 %  \label{fig:q5tp2}
 %\end{figure}
@@ -176,7 +188,7 @@ Question 6 : Pour améliorer le réalisme, un retour de force est rendu possible
 %TODO code
 %\begin{figure}
 %  \centering
-%  \includegraphics{}
+%  \includegraphics{retour_force.png}
 %  \caption{Ajout de la force en retour.}
 %  \label{fig:}
 %\end{figure}
@@ -201,23 +213,23 @@ Question 8 :%TODO code
 Question 9 : Après changement du mesh, l'aspect de la simulation est donné dans la \textsc{Figure} \ref{fig:foie}. Après quelques changements dans les paramètres de simulation, nous décidons que la simulation est stable avec les mêmes valeurs que précédemment. Pour rappel, celles-ci étaient : dt = 1/50, K = 300, et n = 20.
 %\begin{figure}
 %  \centering
-%  \includegraphics{}
+%  \includegraphics{foie.png}
 %  \caption{Mesh représentant un foie.}
 %  \label{fig:}
 %\end{figure}
 
-Question 10 : Dans un premier temps, nous avons fixé tous les points en contact avec la manipulateur, à l'appui sur la touche \og{}f\fg{}. Dans un second temps, nous avons cherché les positions des sphères qui avaient un rendu que nous avons jugé correct au lancement de la simulation. Dans un souci de visibilité, les sphères \og{}de fixation\fg{} n'ont pas été dessinées.
+Question 10 : Dans un premier temps, nous avons fixé tous les points en contact avec le manipulateur, à l'appui sur la touche \og{}f\fg{}. Dans un second temps, nous avons cherché les positions des sphères qui avaient un rendu que nous avons jugé correct au lancement de la simulation. Dans un souci de visibilité, les sphères \og{}de fixation\fg{} n'ont pas été dessinées.
 %TODO scrshot avec les positions des sphères
 %\begin{figure}
 %  \centering
-%  \includegraphics{}
+%  \includegraphics{foie_fixe.png}
 %  \caption{Le mesh du foie fixé.}
 %  \label{fig:}
 %\end{figure}
 
 %\begin{figure}
 %  \centering
-%  \includegraphics{}
+%  \includegraphics{fixation_code.png}
 %  \caption{Implémentation de la fixation des points.}
 %  \label{fig:}
 %\end{figure}
@@ -232,7 +244,7 @@ Question 2 : Afin de mieux repérer les particules fixées, nous avons décidé 
 % Image points fixés
 %\begin{figure}
 %  \centering
-%  \includegraphics{}
+%  \includegraphics{couleur_points_fixes.png}
 %  \caption{Le mesh resemble à un rideau pendant.}
 %  \label{fig:fixed}
 %\end{figure}
@@ -243,34 +255,41 @@ Question 4 : Nous avons choisi de sauvegarder les particules fixées dans un fic
 %TODO code
 %\begin{figure}
 %  \centering
-%  \includegraphics{}
+%  \includegraphics{save.png}
 %  \caption{Le mesh resemble à un rideau pendant.}
-%  \label{fig:}
+%  \label{fig:pointFixe}
 %\end{figure}
 
 Au chargement, nous cherchons ce fichier de sauvegarde. S'il n'existe pas à l'endroit où il est sauvegardé initialement, alors aucune particule n'est fixée et la simulation commence. En revanche, dans le cas contraire nous parcourons le fichier et fixons les particules dont le numéro apparaît. La \textsc{Figure}~\ref{fig:save} montre le code remplissant ce rôle.
 %TODO code
 %\begin{figure}
 %  \centering
-%  \includegraphics{}
+%  \includegraphics{restore.png}
 %  \caption{Le mesh resemble à un rideau pendant.}
 %  \label{fig:}
 %\end{figure}
 
-Question 5 : Afin de pouvoir alterner entre l'utilisation de la souris et le moniteur haptique, nous avons choisi d'ajouter une variable à notre code. Celle-ci peut prendre deux valeurs qui correspondent aux deux modes possibles. Ainsi, lors de l'appui sur la touche \og{]m\fg{}, on change le mode courant. Cet ajout s'accompagne bien sûr de vérifications de sa valeur afin d'exécuter la partie de code correspondant au bon mode.
+Question 5 : Afin de pouvoir alterner entre l'utilisation de la souris et le moniteur haptique, nous avons choisi d'ajouter une variable à notre code. Celle-ci peut prendre deux valeurs qui correspondent aux deux modes possibles. Ainsi, lors de l'appui sur la touche \og{}m\fg{}, on change le mode courant. Cet ajout s'accompagne bien sûr de vérifications de sa valeur afin d'exécuter la partie de code correspondant au bon mode.
 % Image de code
 %\begin{figure}
 %  \centering
-%  \includegraphics{}
-%  \caption{Le mesh resemble à un rideau pendant.}
+%  \includegraphics{modes.png}
+%  \caption{Les deux modes possibles sont des entiers.}
+%  \label{fig:}
+%\end{figure}
+%\begin{figure}
+%  \centering
+%  \includegraphics{press_m.png}
+%  \caption{Changement lors de l'appui sur \og{}m\fg{}.}
 %  \label{fig:}
 %\end{figure}
 
-Question 6 : Dans le but de contrôler avec le plus de précision possible le manipulateur, l'implémentation d'un facteur qui jouerait sur la sensibilité des manipulations était demandée. Ce facteur, nommé \og{}scale\fg{}, peut être changé dynamiquement. Nous avons choisi les touches \og{}flèche haut\fg{} et \og{}flèche bas\fg{} afin d'effectuer les modifications. La \textsc{Figure} \ref{fig:alternance} montre la manière dont nous avons implémenté cette amélioration. Nos pouvons y voir que nous avons choisi un pas d'une valeur de 0.2.
+
+Question 6 : Dans le but de contrôler avec le plus de précision possible le manipulateur, l'implémentation d'un facteur qui jouerait sur la sensibilité des manipulations était demandée. Ce facteur, nommé \og{}scale\fg{}, peut être changé dynamiquement. Nous avons choisi les touches \og{}i\fg{} et \og{}d\fg{} afin d'effectuer les modifications. La \textsc{Figure} \ref{fig:alternance} montre la manière dont nous avons implémenté cette amélioration. Nos pouvons y voir que nous avons choisi un pas d'une valeur de 0.2.
 %code
 %\begin{figure}
 %  \centering
-%  \includegraphics{}
+%  \includegraphics{scale.png}
 %  \caption{Le mesh resemble à un rideau pendant.}
 %  \label{fig:}
 %\end{figure}
@@ -299,4 +318,49 @@ Question 8 : Nous avons choisi d'appuyer sur un des boutons du bras articulé af
 %  \caption{Le mesh resemble à un rideau pendant.}
 %  \label{fig:}
 %\end{figure}
+
+Question 9 : Après ajout du Leap motion, nous pouvons visualiser la représentation de notre main à l'écran. Pour le moment, certains gestes sont reconnus, mais ne sont associés à aucune action. Pour le moment, les mouvements reconnus sont :
+\begin{itemize}
+  \item Le pincement entre le pouce et l'index;
+  \item Le balayage de la main.
+\end{itemize}
+
+Par la suite nous déciderons d'ajouter le pincement entre le pouce et le majeur.
+%\begin{figure}
+%  \centering
+%  \includegraphics{gestes_base.png}
+%  \caption{Le pinch est reconnu par le Leap motion.}
+%  \label{fig:}
+%\end{figure}
+%\begin{figure}
+%  \centering
+%  \includegraphics{geste_base2.png}
+%  \caption{Le swipe est déjà reconnu par le Leap motion.}
+%  \label{fig:}
+%\end{figure}
+
+
+Question 10 : Nous avons choisi d'associer au pincement entre le pouce et l'index la translation du mesh actuel. Au pincement entre le pouce et le majeur, nous effectuons une rotation du mesh, et lors du balayage de la main, nous changeons entre les deux modes présents, à savoir le contrôle à la souris ou avec le moniteur haptique. Nous avons hésité à ajouter le mode \og{}scalpel\fg{} dans la rotation des modes engendrée par le balayage, mais nous avons trouvé que la précision des mouvements et la qualité des manipulations pourrait s'en ressentir. En effet, si lors d'un balayage le scalpel est activé, il y a un risque que l'utilisateur coupe des liens sans le vouloir.
+%\begin{figure}
+%  \centering
+%  \includegraphics{swipe_pinch_code.png}
+%  \caption{Implémentation de la rotation et de la translation.}
+%  \label{fig:pinchSwipe}
+%\end{figure}
+%\begin{figure}
+%  \centering
+%  \includegraphics{swipe_pinch_appel.png}
+%  \caption{L'appel des fonctions précédentes.}
+%  \label{fig:}
+%\end{figure}
+
+Pour le mode \og{}scalpel\fg{}, nous avons modélisé une sphère au bout de l'index. Celle-ci ne sert que pour des raisons de facilité d'implémentation et n'apparaît en aucun cas. Lorsque la sphère se trouve entre deux points, la liaison est rompue.
+%TODO
+%\begin{figure}
+%  \centering
+%  \includegraphics{geste_base2.png}
+%  \caption{Le swipe est déjà reconnu par le Leap motion.}
+%  \label{fig:}
+%\end{figure}
+
 \end{document}
