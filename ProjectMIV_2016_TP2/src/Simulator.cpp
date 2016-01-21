@@ -5,10 +5,10 @@
 #include <fstream>
 
 const float Simulator::GRAVITY_CONSTANT = 9.81f;
-const float Simulator::K = 1000;
-const float Simulator::D = 40;
-const float Simulator::dt = 1.0f/100.0f;
-const float Simulator::nb_iterations = 25;
+const float Simulator::K = 1000;//1000
+const float Simulator::D = 40; //40
+const float Simulator::dt = 1.0f/50.0f; // 100 à garder
+const float Simulator::nb_iterations = 25; //25
 
 void Simulator::Update()
 {
@@ -20,13 +20,13 @@ void Simulator::Update()
 
 		ApplyVelocityDamping();
 
-		/*
+		
 		//fix first row of particules to simulate hanging
-		for (int i = 0; i < 30; i++)
+		for (int i = 0; i < 10; i++)
 		{
 			m_Mesh->particles[i].force_accumulator = Maths::Vector3(0, 0, 0);
 		}
-		
+		/*
 		// remove all forces on y axis starting y = 0 and below to simulate floor
 		for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
 		{
@@ -49,8 +49,10 @@ void Simulator::Update()
 		}
 
 		Integrate();
-		
-		UpdateManipulator();
+		if (mode == 0)
+		{
+			UpdateManipulator();
+		}
 	}
 } 
 
@@ -294,22 +296,6 @@ void Simulator::translateMesh(Maths::Vector3 t)
 
 void Simulator::rotateMesh(Maths::Vector3 prevPos, Maths::Vector3 currPos)
 {
-	/*
-
-	// calculate gravity center position of the mesh
-	Maths::Vector3 center;
-	for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
-	{
-		center += m_Mesh->particles[p].pos;
-	}
-	center /= m_Mesh->particles.size();
-
-	// get rotation angle
-	Maths::Radian angle;
-	angle = prevPos.angleBetween(currPos);
-
-	*/
-
 	// get rotation quaternion
 	Maths::Quaternion q;
 	q = prevPos.getRotationTo(currPos);

@@ -35,6 +35,7 @@ bool paused = false;
 Vector3 thumbPos;
 int move_mode = MOUSE;
 bool cut_mode = false;
+bool stop_manip = false;
 
 //Forward Declarations
 void hapticButtonClicked();
@@ -80,7 +81,7 @@ int main(int argc, char **argv) {
 
 	//Creates and initalizes the simulator which will update the mesh
 	simulator.setMesh(&mesh);
-	simulator.dropMesh(2.5);
+	//simulator.dropMesh(2.5);
 	simulator.setManipulator(&manipulator);
 	simulator.restoreFixedParticles();
 
@@ -131,17 +132,17 @@ void app_loop()
 		//Update the simulation
 		simulator.Update();
 
-		if (move_mode == HAPTIC && !haptic_client.isButtonPressed(3)){
+		if (move_mode == HAPTIC && !stop_manip){
 
-			manipulator.Move(last_haptic_x - haptic_client.getPosition().x / scale_factor, 
-						     last_haptic_y - haptic_client.getPosition().y / scale_factor,
-							 last_haptic_z - haptic_client.getPosition().z / scale_factor);
-
-			last_haptic_x = haptic_client.getPosition().x;
-			last_haptic_y = haptic_client.getPosition().y;
-			last_haptic_z = haptic_client.getPosition().z;
+			manipulator.Move(last_haptic_x - haptic_client.getPosition().x / scale_factor,
+				last_haptic_y - haptic_client.getPosition().y / scale_factor,
+				last_haptic_z - haptic_client.getPosition().z / scale_factor);
 		}
+		last_haptic_x = haptic_client.getPosition()[0];
+		last_haptic_y = haptic_client.getPosition()[1];
+		last_haptic_z = haptic_client.getPosition()[2];
 	}
+
 	Maths::Vector3 retour = Maths::Vector3::ZERO;
 	//Update haptic simulation here!!
 	for (unsigned int p = 0; p < mesh.particles.size(); p++)
@@ -153,7 +154,7 @@ void app_loop()
 	}
 
 	retour = -retour;
-	haptic_client.setForce(retour/5);
+	haptic_client.setForce(retour/4);
 
 
 	//Check the button status of the haptic device
@@ -161,13 +162,16 @@ void app_loop()
 	
 	//Gestion des boutons haptiques
 	if (haptic_client.isButtonPressed(0)){
-		paused = !paused;
+		paused = true;
 	}
 	if (haptic_client.isButtonPressed(1)){
-		simulator.fixParticles();
+		paused = false;
 	}
 	if (haptic_client.isButtonPressed(2)){
-		simulator.saveFixedParticles();
+		stop_manip = true;
+	}
+	if (haptic_client.isButtonPressed(3)){
+		stop_manip = false;
 	}
 
 	if (cut_mode){
@@ -296,10 +300,10 @@ void keyPressed(unsigned char key) {
 		cut_mode = !cut_mode;
 		std::cout << "Scalpel enabled: " << cut_mode << std::endl;
 	}
-	if (key == '+'){
-		scale_factor += 0.2;
+	if (key == 'i'){
+		scale_factor += 0.2;	
 	}
-	if (key == '-'){
+	if (key == 'd'){
 		scale_factor -= 0.2;
 	}
 }
@@ -344,5 +348,12 @@ void leapCheckSwipeGesture()
 	{
 		std::cout << "[LeapMotion]" << " Swipe gesture(" << finger << ") : " << speed << "," << direction << std::endl;
 	}
-	
+	if (move_mode == HAPTIC)
+	{
+		move_mode = MOUSE;
+	}
+	else
+	{
+		move_mode = HAPTIC;
+	}
 }
