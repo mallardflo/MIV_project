@@ -3,12 +3,17 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <ctime>
 
 const float Simulator::GRAVITY_CONSTANT = 9.81f;
 const float Simulator::K = 1000;//1000
 const float Simulator::D = 40; //40
 const float Simulator::dt = 1.0f/50.0f; // 100 à garder
 const float Simulator::nb_iterations = 25; //25
+const float Simulator::penalty = 1;
+
+time_t time_up = time(0);
+time_t t = time(0);
 
 void Simulator::Update()
 {
@@ -20,13 +25,13 @@ void Simulator::Update()
 
 		ApplyVelocityDamping();
 
-		
+		/*
 		//fix first row of particules to simulate hanging
 		for (int i = 0; i < 10; i++)
 		{
 			m_Mesh->particles[i].force_accumulator = Maths::Vector3(0, 0, 0);
 		}
-		/*
+		
 		// remove all forces on y axis starting y = 0 and below to simulate floor
 		for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
 		{
@@ -136,7 +141,7 @@ void Simulator::UpdateManipulator()
 				
 				m_force = m_Mesh->particles[p].pos - manipulator_pos;
 				m_force.normalise();	
-				m_Mesh->particles[p].pos = manipulator_pos + m_force * manipulator_radius;		
+				m_Mesh->particles[p].pos = manipulator_pos + m_force * manipulator_radius * penalty;		
 
 				//impose velocity ZERO perpendicular to the sphere surface
 				m_Mesh->particles[p].vel -= m_force*m_Mesh->particles[p].vel.dotProduct(m_force);
@@ -172,31 +177,23 @@ void Simulator::checkCut()
 		for (unsigned int n = 0; n < particle->neighbors.size(); n++)
 		{
 			Particle *neighbor = particle->neighbors[n];
-
 			
-			// trouver le point median entre particle et neighbor
-			Maths::Vector3 median_pos = particle->pos.midPoint(neighbor->pos);
+			// distance between scalpel and vector between particle and neighbor
+			Maths::Vector3 link = Maths::Vector3(neighbor->pos.x - particle->pos.x, neighbor->pos.y - particle->pos.y, 
+				neighbor->pos.z - particle->pos.z);
+			Maths::Vector3 particle_scalpel = Maths::Vector3(particle->pos.x - scalpel_pos.x, 
+				particle->pos.y - scalpel_pos.y, particle->pos.z - scalpel_pos.z);
+			Maths::Vector3 neighbor_scalpel = Maths::Vector3(neighbor->pos.x - scalpel_pos.x, 
+				neighbor->pos.y - scalpel_pos.y, neighbor->pos.z - scalpel_pos.z);
+			
+			Maths::Real distance = link.crossProduct(particle_scalpel).length() / link.length();
 
-			if (median_pos.distance(scalpel_pos) < scalpel_radius)
+			if (distance < scalpel_radius && particle_scalpel.dotProduct(scalpel_pos) < particle->pos.distance(neighbor->pos) && 
+				neighbor_scalpel.dotProduct(scalpel_pos) < particle->pos.distance(neighbor->pos))
 			{
-			// retirer particle de neighbor.neighbors et neighbor de particle.neighbors
-			CutLinks(particle, neighbor);
-			}
-			
-			/*
-			// calculer la distance entre le scalpel et le vecteur reliant les deux particules
-			Maths::Vector3 link = Maths::Vector3(neighbor->pos.x - particle->pos.x, neighbor->pos.y - particle->pos.y, neighbor->pos.z - particle->pos.z);
-			Maths::Vector3 particle_scalpel = Maths::Vector3(particle->pos.x - scalpel_pos.x, particle->pos.y - scalpel_pos.y, particle->pos.z - scalpel_pos.z);
-			Maths::Vector3 neighbor_scalpel = Maths::Vector3(neighbor->pos.x - scalpel_pos.x, neighbor->pos.y - scalpel_pos.y, neighbor->pos.z - scalpel_pos.z);
-			
-			Maths::Real distance;
-			distance = link.crossProduct(particle_scalpel).length / link.length;
-
-			if (distance < scalpel_radius && particle_scalpel.dotProduct(scalpel_pos) < particle->pos.distance(neighbor->pos) && neighbor_scalpel.dotProduct(scalpel_pos) < particle->pos.distance(neighbor->pos))
-			{
-				// retirer particle de neighbor.neighbors et neighbor de particle.neighbors
+				// remove particle from neighbor.neighbors and neighbor from particle.neighbors
 				CutLinks(particle, neighbor);
-			}*/
+			}
 		}
 	}
 }
@@ -222,6 +219,8 @@ void Simulator::CutLinks(Particle* particle, Particle* neighbor)
 	}
 }
 
+/*
+// deprecated
 void Simulator::checkOrphans()
 {
 	for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
@@ -239,6 +238,7 @@ void Simulator::checkOrphans()
 		}
 	}
 }
+*/
 
 void Simulator::fixParticles()
 {
@@ -317,5 +317,25 @@ void Simulator::rotateMesh(Maths::Vector3 prevPos, Maths::Vector3 currPos)
 	for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
 	{
 		m_Mesh->particles[p].pos = q * m_Mesh->particles[p].pos;
+	}
+}
+
+void Simulator::dontTouchFixedparticles()
+{
+	Maths::Vector3 manipulator_pos = m_Manipulator->getPosition();
+	Maths::Real manipulator_radius = m_Manipulator->getRadius();
+
+	t = time(0); // current time
+
+	if (t - time_up > 2){
+		for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
+		{
+			if (m_Mesh->particles[p].pos.distance(manipulator_pos) < manipulator_radius && m_Mesh->particles[p].fixed)
+			{
+				score--;
+				time_up = t;
+				std::cout << "You touched a forbidden particle ! Your score : " << score << "\n";
+			}
+		}
 	}
 }

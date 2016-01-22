@@ -4,6 +4,7 @@
 
 #include "Mesh.h"
 #include "RigidSphere.h"
+#include <ctime>
 
 class Simulator {
 
@@ -27,10 +28,16 @@ class Simulator {
 	//simulation step
 	static const float dt;
 
+	//penalty variable
+	static const float penalty;
+
 public:
 
 	//Constructor
-	Simulator() {};
+	Simulator() {
+	};
+
+	int score;
 
 	//Initialize the mesh
 	inline void setMesh(Mesh* m) {m_Mesh = m;}
@@ -63,6 +70,8 @@ public:
 	void checkCut();
 
 	void checkOrphans();
+
+	void dontTouchFixedparticles();
 
 private:
 
