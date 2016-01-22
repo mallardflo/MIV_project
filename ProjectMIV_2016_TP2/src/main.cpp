@@ -70,24 +70,28 @@ int main(int argc, char **argv) {
 	mesh.loadFromFile("./media/meshes/liver1.mshdat");
 
 	//Define the shape and the position of the manipulator
-	manipulator.setRadius(1.0f);
+	manipulator.setRadius(0.3f);
 	manipulator.setPosition(Maths::Vector3(0,-0.25,0));
 
+	/*
 	//Define sizes and positions of the fixing spheres
-	/*sphere1.setPosition(Maths::Vector3(-0.5,3.5,0));
+	sphere1.setPosition(Maths::Vector3(-0.5,3.5,0));
 	sphere2.setPosition(Maths::Vector3(3,4.2,0));
 	sphere1.setRadius(0.5);
-	sphere2.setRadius(1);*/
+	sphere2.setRadius(1);
+	*/
 
 	//Creates and initalizes the simulator which will update the mesh
 	simulator.setMesh(&mesh);
-	//simulator.dropMesh(2.5);
+	simulator.dropMesh(2.5);
 	simulator.setManipulator(&manipulator);
 	simulator.restoreFixedParticles();
 
+	/*
 	//Fix particles inside of the spheres
-	//simulator.fixParticlesinSphere(&sphere1);
-	//simulator.fixParticlesinSphere(&sphere2);
+	simulator.fixParticlesinSphere(&sphere1);
+	simulator.fixParticlesinSphere(&sphere2);
+	*/
 
 	//Creates and initalizes the simulator which will update the mesh
 
@@ -187,7 +191,8 @@ void app_loop()
 	}
 
 	// remove orphaned particles without neighbors from mesh
-	simulator.checkOrphans();
+	// disabled because not stable, replaced by changes in GUI::drawMesh
+	//simulator.checkOrphans();
 
 	//Check if the user has performed a gesture
 	leapCheckSwipeGesture();

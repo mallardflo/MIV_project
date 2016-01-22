@@ -20,13 +20,13 @@ void Simulator::Update()
 
 		ApplyVelocityDamping();
 
-		
+		/*
 		//fix first row of particules to simulate hanging
 		for (int i = 0; i < 10; i++)
 		{
 			m_Mesh->particles[i].force_accumulator = Maths::Vector3(0, 0, 0);
 		}
-		/*
+		
 		// remove all forces on y axis starting y = 0 and below to simulate floor
 		for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
 		{
@@ -173,7 +173,7 @@ void Simulator::checkCut()
 		{
 			Particle *neighbor = particle->neighbors[n];
 
-			
+			/*
 			// trouver le point median entre particle et neighbor
 			Maths::Vector3 median_pos = particle->pos.midPoint(neighbor->pos);
 
@@ -182,21 +182,20 @@ void Simulator::checkCut()
 			// retirer particle de neighbor.neighbors et neighbor de particle.neighbors
 			CutLinks(particle, neighbor);
 			}
+			*/
 			
-			/*
 			// calculer la distance entre le scalpel et le vecteur reliant les deux particules
 			Maths::Vector3 link = Maths::Vector3(neighbor->pos.x - particle->pos.x, neighbor->pos.y - particle->pos.y, neighbor->pos.z - particle->pos.z);
 			Maths::Vector3 particle_scalpel = Maths::Vector3(particle->pos.x - scalpel_pos.x, particle->pos.y - scalpel_pos.y, particle->pos.z - scalpel_pos.z);
 			Maths::Vector3 neighbor_scalpel = Maths::Vector3(neighbor->pos.x - scalpel_pos.x, neighbor->pos.y - scalpel_pos.y, neighbor->pos.z - scalpel_pos.z);
 			
-			Maths::Real distance;
-			distance = link.crossProduct(particle_scalpel).length / link.length;
+			Maths::Real distance = link.crossProduct(particle_scalpel).length() / link.length();
 
 			if (distance < scalpel_radius && particle_scalpel.dotProduct(scalpel_pos) < particle->pos.distance(neighbor->pos) && neighbor_scalpel.dotProduct(scalpel_pos) < particle->pos.distance(neighbor->pos))
 			{
 				// retirer particle de neighbor.neighbors et neighbor de particle.neighbors
 				CutLinks(particle, neighbor);
-			}*/
+			}
 		}
 	}
 }
@@ -222,6 +221,8 @@ void Simulator::CutLinks(Particle* particle, Particle* neighbor)
 	}
 }
 
+/*
+// deprecated
 void Simulator::checkOrphans()
 {
 	for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
@@ -239,6 +240,7 @@ void Simulator::checkOrphans()
 		}
 	}
 }
+*/
 
 void Simulator::fixParticles()
 {
