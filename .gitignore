@@ -1,0 +1,19 @@
+#Rapport LateX
+*.aux
+*.tex~
+*.synctex
+*.bbl
+*.blg
+
+# Garder la sauvegarde des points fixés
+*.txt
+!save.txt
+
+# VS
+*.suo
+*.sln
+*.sdf
+*.log
+media/*
+lib/*
+msvs/*
