@@ -134,14 +134,15 @@ void app_loop()
 
 		if (move_mode == HAPTIC && !stop_manip){
 
-			manipulator.Move(last_haptic_x - haptic_client.getPosition().x / scale_factor,
-				last_haptic_y - haptic_client.getPosition().y / scale_factor,
-				last_haptic_z - haptic_client.getPosition().z / scale_factor);
+			manipulator.Move((last_haptic_x - haptic_client.getPosition()[0]) / scale_factor,
+				(last_haptic_y - haptic_client.getPosition()[1]) / scale_factor,
+				(last_haptic_z - haptic_client.getPosition()[2]) / scale_factor);
 		}
-		last_haptic_x = haptic_client.getPosition()[0];
-		last_haptic_y = haptic_client.getPosition()[1];
-		last_haptic_z = haptic_client.getPosition()[2];
+		
 	}
+	last_haptic_x = haptic_client.getPosition()[0];
+	last_haptic_y = haptic_client.getPosition()[1];
+	last_haptic_z = haptic_client.getPosition()[2];
 
 	Maths::Vector3 retour = Maths::Vector3::ZERO;
 	//Update haptic simulation here!!
@@ -154,7 +155,7 @@ void app_loop()
 	}
 
 	retour = -retour;
-	haptic_client.setForce(retour/4);
+	haptic_client.setForce(retour/7);
 
 
 	//Check the button status of the haptic device
@@ -162,15 +163,19 @@ void app_loop()
 	
 	//Gestion des boutons haptiques
 	if (haptic_client.isButtonPressed(0)){
+		std::cout << "Simulation paused ";
 		paused = true;
 	}
 	if (haptic_client.isButtonPressed(1)){
+		std::cout << "Simulation enabled " ;
 		paused = false;
 	}
 	if (haptic_client.isButtonPressed(2)){
+		std::cout << "Manipulation stopped " ;
 		stop_manip = true;
 	}
 	if (haptic_client.isButtonPressed(3)){
+		std::cout << "Manipulation started ";
 		stop_manip = false;
 	}
 
@@ -347,13 +352,14 @@ void leapCheckSwipeGesture()
 	if (listener.isSwipe(speed, direction, finger))
 	{
 		std::cout << "[LeapMotion]" << " Swipe gesture(" << finger << ") : " << speed << "," << direction << std::endl;
-	}
-	if (move_mode == HAPTIC)
-	{
-		move_mode = MOUSE;
-	}
-	else
-	{
-		move_mode = HAPTIC;
+		
+		if (stop_manip == true)
+		{
+			stop_manip = false;
+		}
+		else
+		{
+			stop_manip = true;
+		}
 	}
 }
