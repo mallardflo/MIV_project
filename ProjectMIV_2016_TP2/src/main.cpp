@@ -33,9 +33,8 @@ Simulator simulator;
 Mesh mesh;
 bool paused = false;
 Vector3 thumbPos;
-int move_mode = MOUSE;
+int move_mode = HAPTIC;
 bool cut_mode = false;
-bool stop_manip = false;
 
 //Forward Declarations
 void hapticButtonClicked();
@@ -70,7 +69,7 @@ int main(int argc, char **argv) {
 	mesh.loadFromFile("./media/meshes/liver1.mshdat");
 
 	//Define the shape and the position of the manipulator
-	manipulator.setRadius(0.3f);
+	manipulator.setRadius(0.7f);
 	manipulator.setPosition(Maths::Vector3(0,-0.25,0));
 
 	/*
@@ -113,6 +112,10 @@ int main(int argc, char **argv) {
 	scalpel.setRadius(0.1f);
 	simulator.setScalpel(&scalpel);
 
+	//Set score
+	simulator.score = 10;
+
+
 	//Start the application loop. This function returns when the main window is closed
 	GUI::startApp(app_loop, mouseButtonClicked, mouseDragged, keyPressed);
 
@@ -132,11 +135,16 @@ int main(int argc, char **argv) {
 //main loop of the application (automatically called by the GUI class) coompsed of 2 parts : move the world, and display the world
 void app_loop() 
 {	
+	if (simulator.score == 0)
+	{
+		std::cout << "Game over ";
+	}
+
 	if (!paused){
 		//Update the simulation
 		simulator.Update();
 
-		if (move_mode == HAPTIC && !stop_manip){
+		if (move_mode == HAPTIC){
 
 			manipulator.Move((last_haptic_x - haptic_client.getPosition()[0]) / scale_factor,
 				(last_haptic_y - haptic_client.getPosition()[1]) / scale_factor,
@@ -144,11 +152,13 @@ void app_loop()
 		}
 		
 	}
+
 	last_haptic_x = haptic_client.getPosition()[0];
 	last_haptic_y = haptic_client.getPosition()[1];
 	last_haptic_z = haptic_client.getPosition()[2];
 
 	Maths::Vector3 retour = Maths::Vector3::ZERO;
+
 	//Update haptic simulation here!!
 	for (unsigned int p = 0; p < mesh.particles.size(); p++)
 	{
@@ -159,28 +169,31 @@ void app_loop()
 	}
 
 	retour = -retour;
-	haptic_client.setForce(retour/7);
+	haptic_client.setForce(retour/4);
 
+	// check if bad movement
+	simulator.dontTouchFixedparticles();
 
 	//Check the button status of the haptic device
 	hapticButtonClicked();
 	
-	//Gestion des boutons haptiques
+	//haptic buttons handling
 	if (haptic_client.isButtonPressed(0)){
-		std::cout << "Simulation paused ";
+		//simulator.fixParticles();
+		std::cout << "Simulation paused"; 
 		paused = true;
 	}
 	if (haptic_client.isButtonPressed(1)){
-		std::cout << "Simulation enabled " ;
+		std::cout << "Simulation unpaused " ;
 		paused = false;
 	}
 	if (haptic_client.isButtonPressed(2)){
-		std::cout << "Manipulation stopped " ;
-		stop_manip = true;
+		std::cout << "Manipulation stopped" ;
+		move_mode = MOUSE;
 	}
 	if (haptic_client.isButtonPressed(3)){
-		std::cout << "Manipulation started ";
-		stop_manip = false;
+		std::cout << "Manipulation started";
+		move_mode = HAPTIC;
 	}
 
 	if (cut_mode){
@@ -358,13 +371,13 @@ void leapCheckSwipeGesture()
 	{
 		std::cout << "[LeapMotion]" << " Swipe gesture(" << finger << ") : " << speed << "," << direction << std::endl;
 		
-		if (stop_manip == true)
+		if (move_mode == MOUSE)
 		{
-			stop_manip = false;
+			move_mode = HAPTIC;
 		}
 		else
 		{
-			stop_manip = true;
+			move_mode = MOUSE;
 		}
 	}
 }
