@@ -1,4 +1,4 @@
-#Rapport LateX
+﻿#Rapport LateX
 *.aux
 *.tex~
 *.synctex
@@ -10,6 +10,7 @@
 !save.txt
 
 # VS
+*.obj
 *.suo
 *.sln
 *.sdf
