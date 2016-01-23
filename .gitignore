@@ -10,6 +10,7 @@
 !save.txt
 
 # VS
+.vs/*
 *.obj
 *.suo
 *.sln
