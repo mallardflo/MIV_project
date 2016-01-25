@@ -1,4 +1,3 @@
-
 \documentclass[a4paper,12pt]{article}
 
 \usepackage{ucs}
@@ -24,7 +23,7 @@
 \WarningFilter{latex}{Text page 13 contains only floats}
 \lstloadlanguages{[Visual]C++}
 \lstdefinestyle{listing}{
-  language=Java,
+  language=C++,
   captionpos=t,
   inputencoding=utf8/latin1,
   extendedchars=true,
@@ -34,7 +33,7 @@
   frame=single,
   numbers=left,
   numberstyle=\tiny,
-  numbersep=5pt
+  numbersep=5pt,
   breaklines=true,
   breakatwhitespace=true,
   showspaces=false,
@@ -89,49 +88,123 @@ Cela signifie que la fonction va tout d'abord calculer le prochain mouvement, po
 
 \paragraph{Question 3 :} Maintenant que nous appliquons les forces, le mesh tombe et finit par disparaître de l'écran. Il semble qu'il n'y ait pas de limite physique à sa chute. On peut donc envisager un moyen afin que même si aucune autre interaction que la gravité ne s'applique au mesh, il reste dans le champ de l'écran.
 
-\paragraph{Question 4 :} Une autre solution a été proposée, il s'agit de fixer le premier rang des particules. Ainsi, le mesh reste visible et a un effet dit \og{}de rideau\fg{}. Pour ce faire, il nous faut nullifier les forces de ces particules. Nous avons compté dix particules sur ce rang, nous avons donc ajouté une boucle comme montré sur la \textsc{Figure} \ref{fig:q4}. Cette boucle met simplement les forces appliquées à ces dix particules à zéro, empêchant ainsi tout mouvement.
-\begin{figure}[ht!]
-  \centering
-  \includegraphics[width=\textwidth]{images/q4.png}
-  \caption{Le premier rang reste fixe.}
-  \label{fig:q4}
-\end{figure}
+\paragraph{Question 4 :} Une autre solution a été proposée, il s'agit de fixer le premier rang des particules. Ainsi, le mesh reste visible et a un effet dit \og{}de rideau\fg{}. Pour ce faire, il nous faut nullifier les forces de ces particules. Nous avons compté dix particules sur ce rang, nous avons donc ajouté une boucle comme montré dans le code ci-dessous. Cette boucle met simplement les forces appliquées à ces dix particules à zéro, empêchant ainsi tout mouvement.
+
+  \begin{lstlisting}
+void Simulator::Update()
+{
+// Define the simulation loop (the methods are not in order)
+//ApplyVelocityDamping( ... )
+
+ComputeForces();
+
+//fix first row of particules to simulate hanging
+for (int i = 0; i < 10; i++)
+{
+  m_Mesh->particles[i].force_accumulator = Maths::Vector3(0, 0, 0);
+}
+
+Integrate();
+
+//UpdateManipulator();
+}
+  \end{lstlisting}
+ 
 
 \paragraph{Question 5 :} Le comportement est pour le moins étrange, car les particules oscillent de plus en plus jusqu'à disparaître. Pour le moment la simulation n'est pas stable, car les forces appliquées aux particules ne se compensent pas. Ceci aboutit, plus ou moins rapidement en fonction des paramètres de simulation choisis, à un écran contenant uniquement le premier rang de particules, demeuré fixe comme précisé à la question précédente.
-La \textsc{Figure} \ref{fig:q5} montre notre implémentation.
-\begin{figure}[ht!]
-  \centering
-  \includegraphics[width=\textwidth]{images/q5.png}
-  \caption{Mise à jour des voisins pour chaque particule.}
-  \label{fig:q5}
-\end{figure}
+Nous donnons ci-après notre implémentation.
+\begin{lstlisting}
+void Simulator::ComputeForces()
+{
+  for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
+  {
+    Particle *particle = &(m_Mesh->particles[p]);
 
-\newpage\paragraph{Question 6 :} Le paramètre \og{}dt\fg{} définit la vitesse de la simulation à travers le nombre d'itérations à chaque fois. Une valeur plus petite correspond donc à une simulation plus rapide, car on calcule la position et les forces après un instant plus grand, le mouvement a donc été plus important.
+    // gravity
+    particle->force_accumulator = Maths::Vector3(0, -GRAVITY_CONSTANT, 0);
+    
+    // neighbors forces
+    for (unsigned int n = 0; n < particle->neighbors.size(); n++)
+    {
+      Particle *neighbor = particle->neighbors[n];
+
+      float dij = particle->pos.distance(neighbor->pos);
+      float dij_init = particle->init_pos.distance(neighbor->init_pos);
+
+      Maths::Vector3 diff_pos = neighbor->pos - particle->pos;
+      diff_pos.normalise();
+
+      particle->force_accumulator += diff_pos * K *  (dij - dij_init);
+    }
+  }
+}
+\end{lstlisting}
+
+\paragraph{Question 6 :} Le paramètre \og{}dt\fg{} définit la vitesse de la simulation à travers le nombre d'itérations à chaque fois. Une valeur plus petite correspond donc à une simulation plus rapide, car on calcule la position et les forces après un instant plus grand, le mouvement a donc été plus important.
 K définit la rigidité. Celle-ci va aider à obtenir l'effet de rideau désiré. Sachant cela, nous n'avons pas réussi à stabiliser la simulation. En effet même si le rideau est considéré comme plus rigide, les forces des particules ne se compensent pas et donnent le même résultat que précédemment.
 
 \paragraph{Question 7 :} Nous ajoutons la boucle demandée qui effectue \textit{n} appels à \og{}Update\fg{} avec un timestep désormais divisé par \textit{n}. Le but de cette manipulation est d'avoir un mouvement plus petit, car calculé sur un plus petit pas de temps. Grâce à cela les interactions calculées sont plus fines et donc plus réalistes. Bien entendu, cela implique aussi plus de calculs, et donc un coût plus important pour le processeur. Le CPU est bien plus actif après que nous ayons implémenté cette modification. 
+  \begin{lstlisting}
+void Simulator::Update()
+{
+// Define the simulation loop (the methods are not in order)
+for(int j = 0; j < nb_interactions; j++){
+//ApplyVelocityDamping( ... )
 
-\paragraph{Question 8 :} En amortissant la chute des particules, nous arrivons à stabiliser la simulation. L'amortissement simule l'interaction des particules avec l'air ambiant. C'est lui qui va réussir à compenser les interactions des particules entre elles et empêcher une oscillation de plus en plus importante comme observée précédemment. 
+ComputeForces();
+
+//fix first row of particules to simulate hanging
+for (int i = 0; i < 10; i++)
+{
+  m_Mesh->particles[i].force_accumulator = Maths::Vector3(0, 0, 0);
+}
+
+Integrate();
+
+//UpdateManipulator();
+}
+}
+  \end{lstlisting}
+
+\paragraph{Question 8 :} En amortissant la chute des particules, nous arrivons à stabiliser la simulation. L'amortissement simule l'interaction des particules avec l'air ambiant. C'est lui qui va réussir à compenser les interactions des particules entre elles et empêcher une oscillation de plus en plus importante comme observé précédemment. 
+\begin{lstlisting}
+  void Simulator::ApplyVelocityDamping()
+{
+  for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
+  {
+    Particle *particle = &(m_Mesh->particles[p]);
+
+    for (unsigned int n = 0; n < particle->neighbors.size(); n++)
+    {
+      Particle *neighbor = particle->neighbors[n];
+
+      Maths::Vector3 vrel = neighbor->vel - particle->vel;
+
+      Maths::Vector3 diff_pos = particle->pos - neighbor->pos;
+      diff_pos.normalise();
+
+      particle->force_accumulator += diff_pos * (diff_pos.dotProduct(vrel) * D);
+    }
+
+    //add some friction
+    particle->force_accumulator += -D * particle->vel;
+  }
+}
+\end{lstlisting}
 \begin{figure}[ht!]
   \centering
-  \includegraphics{images/rideau_code.png}
-  \caption{La boucle fixant la première rangée.}
-  \label{fig:rideauCode}
-\end{figure}
-\begin{figure}[ht!]
-  \centering
-  \includegraphics{images/rideau_chute.png}
+  \includegraphics[scale=0.8]{images/rideau_chute.png}
   \caption{Le mesh pendant la chute.}
   \label{fig:rideauFall}
 \end{figure}
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=\textwidth]{images/rideau_fin.png}
+  \includegraphics[scale=0.62]{images/rideau_fin.png}
   \caption{Le mesh stabilisé.}
   \label{fig:rideauFell}
 \end{figure}
 
-\paragraph{Question 9 :} 	Avec dt = 1/200, K = 300, et n = 20, nous arrivons à une simulation stable. Mais ces paramètres sont très coûteux en ressources car avec dt = 1 / 200 et n = 20, cela signifie que nous effectuons quatre mille fois la boucle \og{}Update\fg{} par seconde. Plus tard, et sur des ordinateurs moins puissants, nous préférerons utiliser un dt de 1/50. Cela n'affecte pas trop la simulation mais permet de diminuer significativement le coût en ressources.
+\paragraph{Question 9 :} 	Avec dt = 1/200, K = 300, D = 40 et n = 20, nous arrivons à une simulation stable. Mais ces paramètres sont très coûteux en ressources car avec dt = 1 / 200 et n = 20, cela signifie que nous effectuons quatre mille fois la boucle \og{}Update\fg{} par seconde. Plus tard, et sur des ordinateurs moins puissants, nous préférerons utiliser un dt de 1/50. Cela n'affecte pas trop la simulation mais permet de diminuer significativement le coût en ressources.
 
 \subsection{Conclusion}
 \paragraph{Question 10 :} Le modèle de Mass-Spring-Damper est assez simple à utiliser dès lors que les formules à appliquer sont à disposition. En revanche, pour obtenir une simulation stable, le moindre écart dans les paramètres peut créer une simulation tout à fait exotique. En effet nous avons vu que diminuer la rigidité du mesh pouvait conduire à une simulation qui n'était pas réaliste, car le mesh se comportait plus comme une plaque pivotante que comme un rideau. Appliquer un amortissement trop fort rend la simulation trop longue pour être réaliste.
@@ -142,12 +215,17 @@ K définit la rigidité. Celle-ci va aider à obtenir l'effet de rideau désiré
 \paragraph{Question 1 :} Baisser la valeur d'amortissement résulte en une accélération de la chute et en une baisse de la stabilité. En effet, l'amortissement sert à compenser les interactions entre les particules, qui font osciller le mesh, et à simuler une interaction avec l'air. Diminuer ces \og{}frottements\fg{} accélère donc la chute du rideau, et les particules ont des interactions plus fortes qui déstabilisent la simulation. Après quelques recherches, la vitesse relative est simplement une soustraction des vecteurs vitesses du voisin par rapport à la particule.
 
 \paragraph{Question 2 :} Afin de simuler le sol, nous implémentons une limite de hauteur en dessous de laquelle les particules ne peuvent descendre, ayant pour effet de simuler un plan. Cette méthode nous a posé un petit problème lorsque les particules descendaient un peu plus bas que le seuil fixé, car nous supprimions alors toutes les forces sur les particules, et le manipulateur n’interagissait plus avec.
-\begin{figure}[ht!]
-  \centering
-  \includegraphics[width=\textwidth]{images/sol_code.png}
-  \caption{Implémentation du sol.}
-  \label{fig:floor_code}
-\end{figure}
+\begin{lstlisting}
+// remove all forces on y axis starting y = 0 and below to simulate floor
+    for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
+    {
+      if (m_Mesh->particles[p].pos.y <= 0)
+      {
+        m_Mesh->particles[p].force_accumulator.y = 0;
+        m_Mesh->particles[p].vel.y = 0;
+      }
+    }
+\end{lstlisting}
 
 \begin{figure}[ht!]
   \centering
@@ -156,7 +234,7 @@ K définit la rigidité. Celle-ci va aider à obtenir l'effet de rideau désiré
   \label{fig:floor}
 \end{figure}
 
-\paragraph{Question 3 :} Afin de ne pas passer trop de temps sur une question qui ne nous semblait pas essentielle, nous avons simplement changé la couleur de notre manipulator, que nous montrons ci-dessous :
+\paragraph{Question 3 :} Afin de ne pas passer trop de temps sur une question qui ne nous semblait pas essentielle, nous avons simplement changé la couleur de notre manipulateur, que nous montrons ci-dessous :
 \begin{figure}[ht!]
   \centering
   \includegraphics{images/manipulateur.png}
@@ -165,41 +243,82 @@ K définit la rigidité. Celle-ci va aider à obtenir l'effet de rideau désiré
 \end{figure}
 
 
-\newpage\paragraph{Question 4 :} Le coefficient C, s'il est négatif, créé une attraction entre le manipulator et le mesh. En revanche, s'il est positif, les deux objets se repoussent. Celui-ci peut permettre de simuler les propriétés adhérentes ou répulsives (à cause du contact) de différents outils qui pourraient être utilisés en chirurgie. Avec un coefficient assez fort, les particules ont un mouvement de rebond, car elles sont repoussées loin de la boule à son contact, puis reviennent à leur position initiale et ainsi de suite. Il faut donc être modéré dans les valeurs que nous donnons au coefficient.
-\begin{figure}[ht!]
-  \centering
-  \includegraphics[width=\textwidth]{images/penalty.png}
-  \caption{Ajout du coefficient de pénalité.}
-  \label{fig:q4tp2}
-\end{figure}
+\newpage\paragraph{Question 4 :} Le coefficient C, s'il est négatif, créé une attraction entre le manipulateur et le mesh. En revanche, s'il est positif, les deux objets se repoussent. Celui-ci peut permettre de simuler les propriétés adhérentes ou répulsives (à cause du contact) de différents outils qui pourraient être utilisés en chirurgie. Avec un coefficient assez fort, les particules ont un mouvement de rebond, car elles sont repoussées loin de la boule à son contact, puis reviennent à leur position initiale et ainsi de suite. Il faut donc être modéré dans les valeurs que nous donnons au coefficient.
+\begin{lstlisting}
+void Simulator::UpdateManipulator()
+{
+  if(m_Manipulator)
+  {
+    Maths::Vector3 manipulator_pos = m_Manipulator->getPosition();
+    Maths::Real manipulator_radius = m_Manipulator->getRadius();
+
+    for (unsigned int p = 0 ; p < m_Mesh->particles.size() ; p++) 
+    {
+      //repulsion of the sphere
+      Maths::Vector3 m_force = Maths::Vector3(0.0f, 0.0f, 0.0f);
+
+      if (m_Mesh->particles[p].pos.distance(manipulator_pos) < manipulator_radius && !m_Mesh->particles[p].fixed)
+      {
+        //m_Mesh->particles[p].fixed = true;
+        
+        m_force = m_Mesh->particles[p].pos - manipulator_pos;
+        m_force.normalise();  
+        m_Mesh->particles[p].pos = manipulator_pos + m_force * manipulator_radius * penalty;    
+
+        //impose velocity ZERO perpendicular to the sphere surface
+        m_Mesh->particles[p].vel -= m_force*m_Mesh->particles[p].vel.dotProduct(m_force);
+
+      }
+    }
+  }
+}
+\end{lstlisting}
 
 \subsection{Moniteur haptique}
-\paragraph{Question 5 :} Les modifications demandées afin de rendre possibles les manipulations avec le client haptique. Ainsi, nous avons choisi d'associer la position du manipulateur à celle du client haptique. De cette manière, les mouvements du manipulateur sont limités, car le bras articulé l'est lui-même, et on a un contrôle très instinctif.
-\begin{figure}[ht!]
-  \centering
-  \includegraphics{images/ajout_haptique.png}
-  \caption{Ajout du client haptique.}
-  \label{fig:q5tp2}
-\end{figure}
+\paragraph{Question 5 :} Nous devions effectuer des modifications afin de rendre possibles les manipulations avec le client haptique. Ainsi, nous avons choisi d'associer la position du manipulateur à celle du client haptique. De cette manière, les mouvements du manipulateur sont limités, car le bras articulé l'est lui-même, et on a un contrôle très instinctif.
+\newpage\begin{lstlisting}
+  manipulator.setPosition(haptic_client.getPosition());
+\end{lstlisting}
 
-\newpage\paragraph{Question 6 :} Pour améliorer le réalisme, un retour de force est rendu possible par le client haptique. Cette fonction se révèle très utile afin de simuler la résistance que l'on peut rencontrer lors d'une manipulation, surtout dans un domaine comme la chirurgie.
-\begin{figure}[ht!]
-  \centering
-  \includegraphics[width=\textwidth]{images/retour_force.png}
-  \caption{Ajout de la force en retour.}
-  \label{fig:force}
-\end{figure}
+\paragraph{Question 6 :} Pour améliorer le réalisme, un retour de force est rendu possible par le client haptique. Cette fonction se révèle très utile afin de simuler la résistance que l'on peut rencontrer lors d'une manipulation, surtout dans un domaine comme la chirurgie.
+\begin{lstlisting}
+//Update haptic simulation here!!
+  for (unsigned int p = 0; p < mesh.particles.size(); p++)
+  {
+    if (mesh.particles[p].pos.distance(manipulator.getPosition()) < manipulator.getRadius())
+    {
+      retour += mesh.particles[p].pos - manipulator.getPosition();
+    }
+  }
 
-\paragraph{Question 7 :} Le client haptique dispose de quatre boutons, pouvant être associés aux fonctions de notre choix. Pour pouvoir utiliser ces boutons, une fonction \og{}HapticButtonClicked\fg{} a été mise à notre disposition afin de la compléter. Son rôle se résume pour le moment à détecter lorsqu'on appuie sur un des boutons du client haptique. Cette détection se fait grâce au code de la \textsc{Figure}~\ref{fig:clic}.
-\begin{figure}[ht!]
-  \centering
-  \includegraphics{images/haptic_buttons.png}
-  \caption{Ajout du clic avec le client haptique.}
-  \label{fig:clic}
-\end{figure}
+  retour = -retour;
+  haptic_client.setForce(retour/4);
+\end{lstlisting}
+
+\paragraph{Question 7 :} Le client haptique dispose de quatre boutons, pouvant être associés aux fonctions de notre choix. Pour pouvoir utiliser ces boutons, une fonction \og{}HapticButtonClicked\fg{} a été mise à notre disposition afin de la compléter. Son rôle se résume pour le moment à détecter lorsqu'on appuie sur un des boutons du client haptique. Cette détection se fait grâce au code suivant.
+\begin{lstlisting}
+//haptic buttons handling
+  if (haptic_client.isButtonPressed(0)){
+    //simulator.fixParticles();
+    std::cout << "Simulation paused"; 
+    paused = true;
+  }
+  if (haptic_client.isButtonPressed(1)){
+    std::cout << "Simulation unpaused " ;
+    paused = false;
+  }
+  if (haptic_client.isButtonPressed(2)){
+    std::cout << "Manipulation stopped" ;
+    move_mode = MOUSE;
+  }
+  if (haptic_client.isButtonPressed(3)){
+    std::cout << "Manipulation started";
+    move_mode = HAPTIC;
+  }
+\end{lstlisting}
 
 \subsection{Manipulation du foie}
-\paragraph{Question 9 :} Après changement du mesh, l'aspect de la simulation est donné dans la \textsc{Figure} \ref{fig:liver}. Après quelques changements dans les paramètres de simulation, nous décidons que la simulation est stable avec les mêmes valeurs que précédemment. Pour rappel, celles-ci étaient : dt = 1/50, K = 300, et n = 20.
+\paragraph{Question 9 :} Après changement du mesh, l'aspect de la simulation est donné dans la \textsc{Figure} \ref{fig:liver}. Après quelques changements dans les paramètres de simulation, nous décidons que la simulation est stable avec les mêmes valeurs que précédemment. Pour rappel, celles-ci étaient : dt = 1/50, K = 300, D = 40 et n = 20.
 \begin{figure}[ht!]
   \centering
   \includegraphics[width=\textwidth]{images/foie.png}
@@ -208,19 +327,28 @@ K définit la rigidité. Celle-ci va aider à obtenir l'effet de rideau désiré
 \end{figure}
 
 \paragraph{Question 10} : Dans un premier temps, nous avons fixé tous les points en contact avec le manipulateur, à l'appui sur la touche \og{}f\fg{}. Dans un second temps, nous avons cherché les positions des sphères qui avaient un rendu que nous avons jugé correct au lancement de la simulation. Dans un souci de visibilité, les sphères \og{}de fixation\fg{} n'ont pas été dessinées.
-\begin{figure}[ht!]
+\newpage\begin{figure}[ht!]
   \centering
-  \includegraphics[width=\textwidth]{images/foie_fixe.png}
+  \includegraphics[scale=0.8]{images/foie_fixe.png}
   \caption{Le mesh du foie fixé.}
   \label{fig:liver_fix}
 \end{figure}
 
-\begin{figure}[ht!]
-  \centering
-  \includegraphics[width=\textwidth]{images/fixation_code.png}
-  \caption{Implémentation de la fixation des points.}
-  \label{fig:fix_code}
-\end{figure}
+\begin{lstlisting}
+void Simulator::fixParticlesinSphere(RigidSphere* sphere)
+{
+  Maths::Vector3 sphere_pos = sphere->getPosition();
+  Maths::Real sphere_radius = sphere->getRadius();
+
+  for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
+  {
+    if (m_Mesh->particles[p].pos.distance(sphere_pos) < sphere_radius)
+    {
+      m_Mesh->particles[p].fixed = true;
+    }
+  }
+}
+\end{lstlisting}
 
 \paragraph{Question 11} : Afin d'atteindre les objectifs fixés, nous avons fixé une dizaine de points, un time step de 1/50e de seconde, et 20 boucles avant d'afficher le résultat. En somme nous avons gardé les paramètres trouvés auparavant.
 
@@ -239,33 +367,58 @@ K définit la rigidité. Celle-ci va aider à obtenir l'effet de rideau désiré
 
 \paragraph{Question 3 :} Nous avons choisi de fixer des points à l'intérieur du foie, afin que la simulation soit plus réaliste. En effet, de cette manière nous préservons la \og{}texture\fg{} du foie en autorisant la partie supérieure à bouger, comme si le foie était posé. Nous avons également souhaité conserver les lobes du foie afin de pouvoir les soulever. Ceci rend la manipulation facile tout en gardant un réalisme dans la simulation, ce qui est le but final de ce projet.
 
-\paragraph{Question 4 :} Nous avons choisi de sauvegarder les particules fixées, plus particulièrement leur numéro dans le tableau des particules du mesh, dans un fichier de type texte, nommé \og{}save\fg{}. Si ce fichier existe déjà, il est chargé au lancement du programme. Celui-ci est écrasé à chaque appui sur la touche \og{}s\fg{}, ne laissant la possibilité que d'avoir une seule sauvegarde, à moins de la renommer manuellement. La \textsc{Figure} \ref{fig:save} montre la fonction de sauvegarde telle que nous l'avons implémentée. 
-\begin{figure}[ht!]
-  \centering
-  \includegraphics{images/save.png}
-  \caption{Méthode effectuant la sauvegarde.}
-  \label{fig:save}
-\end{figure}
+\paragraph{Question 4 :} Nous avons choisi de sauvegarder les particules fixées, plus particulièrement leur numéro dans le tableau des particules du mesh, dans un fichier de type texte, nommé \og{}save\fg{}. Si ce fichier existe déjà, il est chargé au lancement du programme. Celui-ci est écrasé à chaque appui sur la touche \og{}s\fg{}, ne laissant la possibilité que d'avoir une seule sauvegarde, à moins de la renommer manuellement. La fonction de sauvegarde telle que nous l'avons implémentée est donnée ci-dessous. 
+\begin{lstlisting}
+void Simulator::saveFixedParticles()
+{
+  std::ofstream f;
+  f.open("save.txt");
 
-Au chargement, nous cherchons ce fichier de sauvegarde. S'il n'existe pas à l'endroit où il est sauvegardé initialement, alors aucune particule n'est fixée et la simulation commence. En revanche, dans le cas contraire nous parcourons le fichier et fixons les particules dont le numéro apparaît. La \textsc{Figure} \ref{fig:save} montre le code remplissant ce rôle.
-\begin{figure}[ht!]
-  \centering
-  \includegraphics{images/restore.png}
-  \caption{Méthode de restauration des points fixes.}
-  \label{fig:restore}
-\end{figure}
+  if (f.is_open()){
+    for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
+    {
+      if (m_Mesh->particles[p].fixed)
+      {
+        f << p << "\n";
+      }
+    }
+  }
+  f.close();
+}
+\end{lstlisting}
 
-Cette méthode a nécessité l'ajout d'une autre fonction, car le mesh restauré n'était plus accessible avec le manipulateur, car il était trop haut. cette fonction \og{}drop\_mesh\fg{} donnée à la \textsc{Figure} \ref{fig:drop}.
-\begin{figure}[ht!]
-	\centering
-  \includegraphics{images/drop.png}
-  \caption{Méthode de placement du mesh.}
-  \label{fig:drop}
-\end{figure}
+Au chargement, nous cherchons ce fichier de sauvegarde. S'il n'existe pas à l'endroit où il est sauvegardé initialement, alors aucune particule n'est fixée et la simulation commence. En revanche, dans le cas contraire nous parcourons le fichier et fixons les particules dont le numéro apparaît. Le code suivant remplit ce rôle.
+\newpage\begin{lstlisting}
+void Simulator::restoreFixedParticles()
+{
+  std::ifstream f("save.txt");
+
+  if (f)
+  {
+    std::string line;
+
+    while (std::getline(f, line))
+    {
+      m_Mesh->particles[atoi(line.c_str())].fixed = true;
+    }
+  }
+  f.close();
+}
+\end{lstlisting}
+
+Cette méthode a nécessité l'ajout d'une autre fonction, car le mesh restauré n'était plus accessible avec le manipulateur, car il était trop haut. Cette fonction \og{}drop\_mesh\fg{} est donnée ci-dessous.
+\begin{lstlisting}
+void Simulator::dropMesh(float offset)
+{
+  for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
+  {
+    m_Mesh->particles[p].pos.y -= offset;
+  }
+}
+\end{lstlisting}
 
 \subsection{Améliorer le contrôle haptique}
 \paragraph{Question 5 :} Afin de pouvoir alterner entre l'utilisation de la souris et le moniteur haptique, nous avons choisi d'ajouter une variable à notre code. Celle-ci peut prendre deux valeurs qui correspondent aux deux modes possibles. Ainsi, lors de l'appui sur la touche \og{}m\fg{}, on change le mode courant. Cet ajout s'accompagne bien sûr de vérifications de sa valeur afin d'exécuter la partie de code correspondant au bon mode.
- Image de code
 \begin{figure}[ht!]
   \centering
   \includegraphics{images/modes.png}
@@ -273,22 +426,36 @@ Cette méthode a nécessité l'ajout d'une autre fonction, car le mesh restauré
   \label{fig:modes}
 \end{figure}
 
-\begin{figure}[ht!]
-  \centering
-  \includegraphics[width=\textwidth]{images/move_mode.png}
-  \caption{Le client haptique est utilisable en mode HAPTIC.}
-  \label{fig:moveMode}
-\end{figure}
+\newpage\begin{lstlisting}
+if (!paused){
+    //Update the simulation
+    simulator.Update();
 
-\paragraph{Question 6 :} Dans le but de contrôler avec le plus de précision possible le manipulateur, l'implémentation d'un facteur qui jouerait sur la sensibilité des manipulations était demandée. Ce facteur, nommé \og{}scale\_factor\fg{}, peut être changé dynamiquement. Nous avons choisi les touches \og{}i\fg{} et \og{}d\fg{} afin d'effectuer les modifications. La \textsc{Figure} \ref{fig:scale} montre la manière dont nous avons implémenté cette amélioration. Nos pouvons y voir que nous avons choisi un pas d'une valeur de $0.2$.
-\begin{figure}[ht!]
-  \centering
-  \includegraphics{images/scale.png}
-  \caption{Scale est augmenté.}
-  \label{fig:scale}
-\end{figure}
+    if (move_mode == HAPTIC){
 
-\paragraph{Question 8 :} Nous avons choisi d'appuyer sur un des boutons du bras articulé afin de désactiver le mouvement du manipulateur. De cette manière nous pouvons remettre le bras à la position désirée avant de reprendre la manipulation. Le code est contenu dans la \textsc{Figure} \ref{fig:clic}.
+      manipulator.Move((last_haptic_x - haptic_client.getPosition()[0]) / scale_factor,
+        (last_haptic_y - haptic_client.getPosition()[1]) / scale_factor,
+        (last_haptic_z - haptic_client.getPosition()[2]) / scale_factor);
+    }
+    
+  }
+
+  last_haptic_x = haptic_client.getPosition()[0];
+  last_haptic_y = haptic_client.getPosition()[1];
+  last_haptic_z = haptic_client.getPosition()[2];
+\end{lstlisting}
+
+\paragraph{Question 6 :} Dans le but de contrôler avec le plus de précision possible le manipulateur, l'implémentation d'un facteur qui jouerait sur la sensibilité des manipulations était demandée. Ce facteur, nommé \og{}scale\_factor\fg{}, peut être changé dynamiquement. Nous avons choisi les touches \og{}i\fg{} et \og{}d\fg{} afin d'effectuer les modifications. Le code suivant montre la manière dont nous avons implémenté cette amélioration. Nos pouvons y voir que nous avons choisi un pas d'une valeur de $0.2$.
+\begin{lstlisting}
+if (key == 'i'){
+    scale_factor += 0.2;  
+  }
+  if (key == 'd'){
+    scale_factor -= 0.2;
+  }
+\end{lstlisting}
+
+\paragraph{Question 8 :} Nous avons choisi d'appuyer sur un des boutons du bras articulé afin de désactiver le mouvement du manipulateur. De cette manière nous pouvons remettre le bras à la position désirée avant de reprendre la manipulation.
 
 \subsection{Introduction de la reconnaissance de gestes}
 \paragraph{Question 9 :} Après ajout du Leap motion, nous pouvons visualiser la représentation de notre main à l'écran. Pour le moment, certains gestes sont reconnus, mais ne sont associés à aucune action. Pour le moment, les mouvements reconnus sont :
@@ -298,33 +465,92 @@ Cette méthode a nécessité l'ajout d'une autre fonction, car le mesh restauré
 \end{itemize}
 
 Par la suite nous déciderons d'ajouter le pincement entre le pouce et le majeur.
-\begin{figure}[ht!]
-  \centering
-  \includegraphics[width=\textwidth]{images/gestes_base.png}
-  \caption{Le pinch est reconnu par le Leap motion.}
-  \label{fig:pinch}
-\end{figure}
-\begin{figure}[ht!]
-  \centering
-  \includegraphics[width=\textwidth, height=.2\textheight]{images/gestes_base2.png}
-  \caption{Le swipe est déjà reconnu par le Leap motion.}
-  \label{fig:swipe}
-\end{figure}
+\begin{lstlisting}
+void leapCheckPinchGesture()
+{
+  if (!listener.isHandVisible()) return;
+
+  Vector3 thumb = listener.getFingerTipPosition(0);
+  Vector3 index = listener.getFingerTipPosition(1);
+  
+  float dist = thumb.distance(index);
+
+  if (dist < 0.3f)
+  {
+    std::cout << "Pinch between thumb and index detected!!! " << dist << std::endl;
+    Vector3 diff = thumbPos - thumb;
+  }
+}
+\end{lstlisting}
+\begin{lstlisting}
+void leapCheckSwipeGesture()
+{
+  float speed;
+  Vector3 direction;
+  int finger;
+
+  if (listener.isSwipe(speed, direction, finger))
+  {
+    std::cout << "[LeapMotion]" << " Swipe gesture(" << finger << ") : " << speed << "," << direction << std::endl;
+  }
+}
+\end{lstlisting}
 
 
 \paragraph{Question 10} : Nous avons choisi d'associer au pincement entre le pouce et l'index la translation du mesh actuel. Au pincement entre le pouce et le majeur, nous effectuons une rotation du mesh, et lors du balayage de la main, nous activons ou désactivons la manipulation avec le bras articulé. Nous avons hésité à ajouter le mode \og{}scalpel\fg{} dans la rotation engendrée par le balayage, mais nous avons trouvé que la précision des mouvements et la qualité des manipulations pourrait s'en ressentir. En effet, si lors d'un balayage le scalpel est activé, il y a un risque que l'utilisateur coupe des liens sans le vouloir.
-\begin{figure}[ht!]
-  \centering
-  \includegraphics[width=\textwidth]{images/swipe_pinch_code.png}
-  \caption{Implémentation de la rotation et de la translation.}
-  \label{fig:pinchSwipe}
-\end{figure}
-\begin{figure}[ht!]
-  \centering
-  \includegraphics[width=\textwidth]{images/swipe_pinch_appel.png}
-  \caption{L'appel des fonctions précédentes.}
-  \label{fig:pinchCall}
-\end{figure}
+\begin{lstlisting}
+void Simulator::translateMesh(Maths::Vector3 t)
+{
+  for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
+  {
+    m_Mesh->particles[p].pos -= t;
+  }
+  
+}
+
+void Simulator::rotateMesh(Maths::Vector3 prevPos, Maths::Vector3 currPos)
+{
+  // get rotation quaternion
+  Maths::Quaternion q;
+  q = prevPos.getRotationTo(currPos);
+
+  for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
+  {
+    m_Mesh->particles[p].pos = q * m_Mesh->particles[p].pos;
+  }
+}
+\end{lstlisting}
+\begin{lstlisting}
+void leapCheckPinchGesture()
+{
+  if (!listener.isHandVisible()) return;
+
+  Vector3 thumb = listener.getFingerTipPosition(0);
+  Vector3 index = listener.getFingerTipPosition(1);
+  Vector3 middle = listener.getFingerTipPosition(2);
+  
+  float dist = thumb.distance(index);
+  float dist2 = thumb.distance(middle);
+
+  if (dist < 0.3f)
+  {
+    std::cout << "Pinch between thumb and index detected!!! " << dist << std::endl;
+    Vector3 diff = thumbPos - thumb;
+    thumbPos = thumb;
+    simulator.translateMesh(diff);
+  }
+  else if (dist2 < 0.3f)
+  {
+    std::cout << "Pinch between thumb and middle detected!!! " << dist << std::endl;
+    simulator.rotateMesh(thumbPos, thumb);
+    thumbPos = thumb;
+  }
+  else
+  {
+    thumbPos = thumb;
+  }
+}
+\end{lstlisting}
 
 Pour le mode \og{}scalpel\fg{}, nous avons modélisé une sphère au bout de l'index. Celle-ci ne sert que pour des raisons de facilité d'implémentation et n'apparaît en aucun cas. Lorsque la sphère se trouve entre deux points, la liaison est rompue, comme montré dans la \textsc{Figure} \ref{fig:cut}.
 
@@ -336,12 +562,61 @@ Pour le mode \og{}scalpel\fg{}, nous avons modélisé une sphère au bout de l'i
 \end{figure}
 
 Afin de réaliser cette interaction avec le foie, nous avons recouru à plusieurs méthodes que nous donnons ci-dessous.
-\begin{figure}[ht!]
-  \centering
-  \includegraphics[width=\textwidth]{images/cut_algo.png}
-  \caption{Les deux fonctions donnant le cut.}
-  \label{fig:cut_algo}
-\end{figure}
+\begin{lstlisting}
+void Simulator::checkCut() 
+{
+  Maths::Vector3 scalpel_pos = m_Scalpel->getPosition();
+  Maths::Real scalpel_radius = m_Scalpel->getRadius();
+
+  for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
+  {
+    Particle *particle = &(m_Mesh->particles[p]);
+
+    for (unsigned int n = 0; n < particle->neighbors.size(); n++)
+    {
+      Particle *neighbor = particle->neighbors[n];
+      
+      // distance between scalpel and vector between particle and neighbor
+      Maths::Vector3 link = Maths::Vector3(neighbor->pos.x - particle->pos.x, neighbor->pos.y - particle->pos.y, 
+        neighbor->pos.z - particle->pos.z);
+      Maths::Vector3 particle_scalpel = Maths::Vector3(particle->pos.x - scalpel_pos.x, 
+        particle->pos.y - scalpel_pos.y, particle->pos.z - scalpel_pos.z);
+      Maths::Vector3 neighbor_scalpel = Maths::Vector3(neighbor->pos.x - scalpel_pos.x, 
+        neighbor->pos.y - scalpel_pos.y, neighbor->pos.z - scalpel_pos.z);
+      
+      Maths::Real distance = link.crossProduct(particle_scalpel).length() / link.length();
+
+      if (distance < scalpel_radius && particle_scalpel.dotProduct(scalpel_pos) < particle->pos.distance(neighbor->pos) && 
+        neighbor_scalpel.dotProduct(scalpel_pos) < particle->pos.distance(neighbor->pos))
+      {
+        // remove particle from neighbor.neighbors and neighbor from particle.neighbors
+        CutLinks(particle, neighbor);
+      }
+    }
+  }
+}
+
+void Simulator::CutLinks(Particle* particle, Particle* neighbor)
+{
+  for (std::vector<Particle*>::iterator iter = particle->neighbors.begin(); iter != particle->neighbors.end(); ++iter)
+  {
+    if (*iter == neighbor)
+    {
+      particle->neighbors.erase(iter);
+      break;
+    }
+  }
+
+  for (std::vector<Particle*>::iterator iter = neighbor->neighbors.begin(); iter != neighbor->neighbors.end(); ++iter)
+  {
+    if (*iter == particle)
+    {
+      neighbor->neighbors.erase(iter);
+      break;
+    }
+  }
+}
+\end{lstlisting}
 
 Dans un souci de visibilité, nous ne dessinons pas les particules qui ne sont plus reliées à aucun voisin. 
 
@@ -350,12 +625,27 @@ Dans un souci de visibilité, nous ne dessinons pas les particules qui ne sont p
 Afin de pouvoir évaluer l'utilisateur lors de ses manipulations, nous avons défini un critère de test simple : l'utilisateur n'a pas le droit de toucher de particules fixes.
 La simulation commence avec un score de 10. Celui-ci ne peut augmenter, en revanche il décroît unitairement lorsque la sphère touche une particule fixe.
 Dans le souci de rendre l'évaluation réaliste, et de ne pas mettre fin à la simulation au premier contact, nous laissons à l'utilisateur une \og{}pause\fg{} de deux secondes durant lesquelles il ne peut plus perdre de points. Il a ainsi le temps de retirer la sphère de la zone et retrouver un espace autorisé.
-\begin{figure}[ht!]
-  \centering
-  \includegraphics[width=\textwidth]{images/score.png}
-  \caption{Implémentation du score, avec la pause.}
-  \label{fig:score}
-\end{figure}
+\begin{lstlisting}
+void Simulator::dontTouchFixedparticles()
+{
+  Maths::Vector3 manipulator_pos = m_Manipulator->getPosition();
+  Maths::Real manipulator_radius = m_Manipulator->getRadius();
+
+  t = time(0); // current time
+
+  if (t - time_up > 2){
+    for (unsigned int p = 0; p < m_Mesh->particles.size(); p++)
+    {
+      if (m_Mesh->particles[p].pos.distance(manipulator_pos) < manipulator_radius && m_Mesh->particles[p].fixed)
+      {
+        score--;
+        time_up = t;
+        std::cout << "You touched a forbidden particle ! Your score : " << score << "\n";
+      }
+    }
+  }
+}
+\end{lstlisting}
 
 Nous nous sommes rendus compte de cette nécessité lors du premier test, durant lequel le score a tout de suite été mis à zéro en raison du nombre de boucles par seconde.
 Nous avons également accompagné le score de logs en console afin que l'utilisateur puisse en avoir la connaissance.
